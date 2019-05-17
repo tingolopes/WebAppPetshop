@@ -1,0 +1,137 @@
+
+/*-- CABEÇALHO --*/
+.cabecalho {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    
+    z-index: 9999;
+    min-height: 50px;
+    background-color: #1E94D2;
+}
+
+.cabecalho > img {
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+.cabecalho > label {
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 5px;
+    
+    font-family: 'Oswald', Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    color: #FFFFFF;        
+}
+
+
+/*-- BARRA-ESQUERDA --*/
+.barra-esquerda {
+    position: fixed;
+    width: 210px;
+    top: 50px;
+    left: 0;
+    bottom: 0;
+    z-index: 9998;
+    transition: margin-left 0.5s;
+    background-color: #F6F6F6;
+    border-right: 1px solid #EAEAEA;
+
+    margin-left: -211px;   
+    overflow-y: auto;
+}
+
+.barra-esquerda.esta-aberto {
+    margin-left: 0;
+}
+
+@media (min-width: 960px) { /*A partir da largura minima de 960px*/
+    .barra-esquerda {
+        margin-left: 0;             
+    }   
+    .barra-esquerda.esta-aberto {
+        margin-left: -211px;
+    }
+}
+
+
+/*-- CONTEUDO --*/
+.conteudo {
+    margin-top: 50px;
+    margin-left: 0;
+    
+    padding: 10px 10px;
+    transition: margin-left 0.5s;
+}
+
+@media (min-width: 960px){
+    .conteudo {
+        margin-left: 210px;
+    }
+    
+    .conteudo.esta-aberto {
+        margin-left: 10px;
+    }
+}
+
+/*-- COMPONENTE BTN-MENU --*/
+.btn-menu {
+    float: right;
+    line-height: 50px;
+    margin-right: 15px;
+    color: #FFFFFF;
+}
+
+/*-- ITENS DE MENU --*/
+.barra-menu {
+    font-size: 1.1em;/*Relativo ao Pai 14.3*/
+}
+
+.barra-menu > ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.barra-menu > ul a {
+    display: block;
+    padding: 10px 15px;
+    border-left: 3px solid #F6F6F6;
+    text-decoration: none;
+    font-weight: 500;
+    color: #696969;
+}
+
+.barra-menu > ul i {
+    margin-right: 6px;
+}
+
+.barra-menu > ul a:hover, .barra-menu > ul a:focus {
+    border-left: 3px solid #1E94D2;
+    color: #1E94D2;
+    background-color: #EAEAEA;
+}
+
+.barra-menu .usuario {
+    padding: 10px;
+    text-align: center;
+    color: #696969;
+    background-color: #EAEAEA;
+}
+
+.barra-menu .usuario > img {
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+}
+
+
+
+
+
+
+
+

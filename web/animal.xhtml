@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="WEB-INF/template/Layout.xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="conteudo">
+        <h:form id="frm">
+            <p:messages id="msgs"/>
+
+            <p:toolbar id="toolbar">
+                <f:facet name="left">
+
+                    <!--<p:commandButton value="Novo" icon="ui-icon-document" onclick="PF('edicaoClienteDialog').show;"/>-->
+                    <p:commandButton value="Novo"                                       
+                                     icon="ui-icon-document" 
+                                     action="#{animalBean.prepararSalvar()}"
+                                     process="@this" update="animal-dialog"
+                                     oncomplete="PF('edicaoAnimalDialog').show()">
+                        <p:resetInput target="animal-dialog" />
+                    </p:commandButton>
+                    <span class="ui-separator">
+                        <span class="ui-icon ui-icon-grip-dotted-vertical"/>
+                    </span>
+
+                    <p:commandButton icon="ui-icon-pencil"
+                                     title="Editar"
+                                     process="@this" update="animal-dialog"
+                                     oncomplete="PF('edicaoAnimalDialog').show()"
+                                     disabled="#{animalBean.animalSelecionado == null}">
+                        <p:resetInput target="animal-dialog" />
+                        <f:setPropertyActionListener value="#{animalBean.animalSelecionado}" 
+                                                     target="#{animalBean.animal}" />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-trash" 
+                                     title="Excluir"
+                                     process="@this" 
+                                     update="animal-tabela msgs toolbar"
+                                     action="#{animalBean.excluir()}"
+                                     disabled="#{animalBean.animalSelecionado == null}">
+
+                        <p:confirm icon="ui-icon-alert"
+                                   header="Confirmar Exclusão"
+                                   message="Tem Certeza que deseja excluir #{animalBean.animalSelecionado.nome}"/>
+                    </p:commandButton>
+
+                </f:facet>
+            </p:toolbar>           
+            <br/>
+            <p:dialog header="Animais" 
+                      widgetVar="edicaoAnimalDialog" 
+                      id="animal-dialog" 
+                      resizable="false"
+                      modal="true" 
+                      closeOnEscape="true">
+
+                <p:messages id="msgs-dialog" />
+
+                <p:panelGrid columns="2" id="painel-dialog" >
+                    <p:outputLabel value="Nome" for="nome"/>
+                    <p:inputText id="nome"
+                                 value="#{animalBean.animal.nome}"/>
+
+                    <p:outputLabel value="Idade" for="idade"/>
+                    <p:inputText id="idade"
+                                 value="#{animalBean.animal.idade}"/>
+
+                    <p:outputLabel value="Peso" for="peso"/>
+                    <p:inputText id="peso"
+                                 value="#{animalBean.animal.peso}"/>
+
+                    <p:outputLabel value="Sexo" for="sexo"/>
+                    <p:selectOneRadio id="sexo" unselectable="true"
+                                      value="#{animalBean.animal.sexo}">
+                        <f:selectItem itemLabel="Femea" itemValue="Femea"/>
+                        <f:selectItem itemLabel="Macho" itemValue="Macho"/>
+
+                    </p:selectOneRadio>
+
+                    <p:outputLabel value="Porte" for="porte"/>
+                    <p:inputText id="porte"
+                                 value="#{animalBean.animal.porte}"/>
+
+                    <p:outputLabel value="Raça" for="raca"/>
+                    <p:selectOneMenu id="raca" 
+                                     value="#{animalBean.racaId}" filter="true" style="width: 150px">
+                        <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
+                        <f:selectItems value="#{animalBean.racas}"
+                                       var="raca"
+                                       itemLabel="#{raca.raca}"
+                                       itemValue="#{raca.id}"/>
+
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Proprietário" for="proprietario"/>
+                    <p:selectOneMenu id="proprietario" 
+                                     value="#{animalBean.proprietarioId}" filter="true" style="width: 150px">
+                        <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
+                        <f:selectItems value="#{animalBean.cliente}"
+                                       var="cliente"
+                                       itemLabel="#{cliente.nome}"
+                                       itemValue="#{cliente.id}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Observação" for="observacao"/>
+                    <p:inputTextarea id="observacao"
+                                     value="#{animalBean.animal.observacao}"/>
+
+                    <p:outputLabel/>
+                    <p:commandButton value="Salvar"
+                                     id="salvar-button"
+                                     action="#{animalBean.salvar}"
+                                     process="animal-dialog"
+                                     update="msgs-dialog painel-dialog"
+                                     oncomplete="if(!args.validationFailed) PF('edicaoAnimalDialog').hide()"/>
+
+                </p:panelGrid>
+
+                <!--            ADICIONAR DENTRO DO DIALOG-->
+            </p:dialog>
+
+            <p:dataTable value="#{animalBean.animais}" var="animal"  
+                         id="animal-tabela"
+                         emptyMessage="Nenhum animal localizado"
+                         rows="10" paginator="true"
+                         paginatorPosition="bottom"
+                         selection="#{animalBean.animalSelecionado}"
+                         selectionMode="single"
+                         rowKey="#{animal.id}"
+                         >
+
+                <p:ajax event="rowSelect" update=":frm:toolbar" />
+                <p:ajax event="rowUnselect" update=":frm:toolbar" />
+
+
+                <p:column headerText="ID" width="30">
+                    <h:outputText value="#{animal.id}" />
+                </p:column>
+                <p:column headerText="Nome" width="250" 
+                          sortBy="#{animal.nome}">
+                    <h:outputText value="#{animal.nome}" />
+                </p:column>
+                <p:column headerText="Proprietário">
+                    <h:outputText value="#{animal.proprietario.nome}" />
+                </p:column>
+                <p:column headerText="Endereço">
+                    <h:outputText value="#{animal.proprietario.endereco}" />
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

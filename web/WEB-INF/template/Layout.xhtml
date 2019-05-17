@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </f:facet>
+        <title>PETPATAS - Gestão de PetShop</title>
+
+        <h:outputStylesheet library="css" name="estilo.css" />
+        <h:outputStylesheet library="css" name="layout.css" />
+        <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet" />
+
+        <h:outputScript target="body" library="primefaces" name="jquery/jquery.js" />
+        <h:outputScript target="body" library="javascript" name="layout.js" />
+
+    </h:head>
+
+    <h:body>
+        <header class="cabecalho">
+            <h:graphicImage library="image" name="pet-patas.png" />
+            <h:outputLabel value="PET-PATAS" />
+
+            <a href="#" class="btn-menu js-btn-menu">
+                <i class="fa fa-bars"></i>
+            </a>            
+        </header>
+
+
+        <h:form>
+            <aside class="barra-esquerda js-barra-esquerda">
+                <nav class="barra-menu">
+                    <ul>
+                        <li class="usuario">
+                            <h:graphicImage library="image" name="usuario.png" /><br />
+                            <h:outputLabel value="Ragnar Lothbrok" />
+                        </li>
+                        <li>
+                            <h:link>
+                                <i class="fa fa-fw fa-bar-chart"></i>
+                                Dashboard
+                            </h:link>
+                        </li>
+                        <li>
+                            <h:link>
+                                <i class="fa fa-fw fa-calendar"></i>
+                                Agendamento
+                            </h:link>
+                        </li>
+                        <li>
+                            <h:link>
+                                <i class="fa fa-fw fa-money"></i>
+                                Pagamentos
+                            </h:link>
+                        </li>
+                        <li>
+                            <h:commandLink action="animal?faces-redirect=true">
+                                <i class="fa fa-fw fa-paw"></i>
+                                Animais
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="cliente?faces-redirect=true">
+                                <i class="fa fa-fw fa-user"></i>
+                                Clientes
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:commandLink action="servico?faces-redirect=true">
+                                <i class="fa fa-fw fa-wrench"></i>
+                                Serviços
+                            </h:commandLink>
+                        </li>
+                        <li>
+                            <h:link>
+                                <i class="fa fa-fw fa-file-text"></i>
+                                Relatórios
+                            </h:link>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+        </h:form>
+
+        <section class="conteudo js-conteudo">
+            <ui:insert name="conteudo" />
+            <h:form>
+                <!-- CAIXA DE CONFIRMAÇÃO -->
+                <p:confirmDialog global="true">
+
+                    <p:commandButton value="Sim" type="button"
+                                     styleClass="ui-confirmdialog-yes"
+                                     icon="ui-icon-check"/>
+                    <p:commandButton value="Não" type="button"
+                                     styleClass="ui-confirmdialog-no"
+                                     icon="ui-icon-close"/>
+
+                </p:confirmDialog>
+
+            </h:form>
+
+        </section>
+
+    </h:body>
+</html>
+

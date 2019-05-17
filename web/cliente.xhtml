@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="WEB-INF/template/Layout.xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="conteudo">
+        <h:form id="frm">
+            <!--Mensagens do Formulario-->
+            <p:messages id="msgs" />
+
+            <p:toolbar id="toolbar">
+                <f:facet name="left">
+                    <p:commandButton value="Novo"
+                                     icon="ui-icon-document"
+                                     action="#{clienteBean.prepararSalvar()}"
+                                     process="@this" update="cliente-dialog"
+                                     oncomplete="PF('edicaoClienteDialog').show()">
+                        <p:resetInput target="cliente-dialog" />
+                    </p:commandButton>
+                    <span class="ui-separator">
+                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                    </span>
+                    <p:commandButton icon="ui-icon-pencil"
+                                     title="Editar"
+                                     process="@this" update="cliente-dialog"
+                                     oncomplete="PF('edicaoClienteDialog').show()"
+                                     disabled="#{clienteBean.clienteSelecionado == null}">
+                        <p:resetInput target="cliente-dialog" />
+                        <f:setPropertyActionListener value="#{clienteBean.clienteSelecionado}" 
+                                                     target="#{clienteBean.cliente}" />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-trash" 
+                                     title="Excluir"
+                                     process="@this" 
+                                     update="cliente-tabela msgs toolbar"
+                                     action="#{clienteBean.excluir()}"
+                                     disabled="#{clienteBean.clienteSelecionado == null}">
+                        
+                        <p:confirm icon="ui-icon-alert"
+                                   header="Confirmar Exclusão"
+                                   message="Tem Certeza que deseja excluir #{clienteBean.clienteSelecionado.nome}"/>
+                    </p:commandButton>
+                </f:facet>
+            </p:toolbar>
+            <br />
+
+            <p:dialog header="Clientes"
+                      widgetVar="edicaoClienteDialog"
+                      id="cliente-dialog"
+                      resizable="false" modal="true"
+                      closeOnEscape="true">
+
+                <p:messages id="msgs-dialog" />
+
+                <h:panelGrid columns="2" id="painel-dialog">
+                    <p:outputLabel value="Nome" for="nome" />
+                    <p:inputText id="nome"
+                                 required="true"
+                                 value="#{clienteBean.cliente.nome}" />
+                    <p:outputLabel value="RG" for="rg" />
+                    <p:inputMask mask="999.999.999-9" id="rg"
+                                 required="true"
+                                 value="#{clienteBean.cliente.RG}"/>
+                    <p:outputLabel value="CPF" for="cpf" />
+                    <p:inputMask mask="999.999.999-99" id="cpf"
+                                 required="true"
+                                 value="#{clienteBean.cliente.CPF}"/>
+
+                    <p:outputLabel value="Telefone" for="telefone" />
+                    <p:inputMask mask="(99) 99999-9999"
+                                 required="true"
+                                 id="telefone"
+                                 value="#{clienteBean.cliente.telefone}"/>
+
+                    <p:outputLabel value="E-mail" for="email" />
+                    <p:inputText id="email"
+                                 required="true"
+                                 value="#{clienteBean.cliente.email}"/>
+                    <p:outputLabel value="Endereço" for="endereco" />
+                    <p:inputText id="endereco"
+                                 required="true"
+                                 value="#{clienteBean.cliente.endereco}"/>
+
+                    <h:outputLabel />
+                    <p:commandButton value="Salvar"
+                                     id="salvar-button"
+                                     action="#{clienteBean.salvar}"
+                                     process="cliente-dialog"
+                                     update="msgs-dialog painel-dialog"
+                                     oncomplete="if(!args.validationFailed) PF('edicaoClienteDialog').hide()"/>
+
+                </h:panelGrid>
+            </p:dialog>
+
+            <br />
+            <p:dataTable value="#{clienteBean.clientes}" var="cliente"  
+                         id="cliente-tabela"
+                         emptyMessage="Nenhum cliente localizado"
+                         rows="10" paginator="true"
+                         paginatorPosition="bottom"
+                         selection="#{clienteBean.clienteSelecionado}"
+                         selectionMode="single"
+                         rowKey="#{cliente.id}"
+                         >
+
+                <p:ajax event="rowSelect" update=":frm:toolbar" />
+                <p:ajax event="rowUnselect" update=":frm:toolbar" />
+
+
+                <p:column headerText="ID" width="30">
+                    <h:outputText value="#{cliente.id}" />
+                </p:column>
+                <p:column headerText="Nome" width="250" 
+                          sortBy="#{cliente.nome}">
+                    <h:outputText value="#{cliente.nome}" />
+                </p:column>
+                <p:column headerText="RG">
+                    <h:outputText value="#{cliente.RG}" />
+                </p:column>
+                <p:column headerText="CPF">
+                    <h:outputText value="#{cliente.CPF}" />
+                </p:column>
+                <p:column headerText="Telefone">
+                    <h:outputText value="#{cliente.telefone}" />
+                </p:column>
+                <p:column headerText="E-mail">
+                    <h:outputText value="#{cliente.email}" />
+                </p:column>
+<!--                <p:column headerText="Endereço">
+                    <h:outputText value="#{cliente.endereco}" />
+                </p:column>-->
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
