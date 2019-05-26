@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="WEB-INF/template/Layout.xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="conteudo">
+        <h:form id="frm">
+            <p:messages id="msgs"/>
+
+            <p:toolbar id="toolbar">
+                <f:facet name="left">
+
+                    <!--<p:commandButton value="Novo" icon="ui-icon-document" onclick="PF('edicaoClienteDialog').show;"/>-->
+                    <p:commandButton value="Novo"                                       
+                                     icon="ui-icon-document" 
+                                     action="#{servicoBean.prepararSalvar()}"
+                                     process="@this" update="servico-dialog"
+                                     oncomplete="PF('edicaoServicoDialog').show()">
+                        <p:resetInput target="servico-dialog" />
+                    </p:commandButton>
+                    
+                     <span class="ui-separator">
+                        <span class="ui-icon ui-icon-grip-dotted-vertical"/>
+                    </span>
+                    <p:commandButton icon="ui-icon-pencil"
+                                     title="Editar"
+                                     process="@this" update="servico-dialog"
+                                     oncomplete="PF('edicaoServicoDialog').show()"
+                                     disabled="#{servicoBean.servicoSelecionado == null}">
+                        <p:resetInput target="servico-dialog" />
+                        <f:setPropertyActionListener value="#{servicoBean.servicoSelecionado}" 
+                                                     target="#{servicoBean.servico}" />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-trash" 
+                                     title="Excluir"
+                                     process="@this" 
+                                     update="servico-tabela msgs toolbar"
+                                     action="#{servicoBean.excluir()}"
+                                     disabled="#{servicoBean.servicoSelecionado == null}">
+                        
+                        <p:confirm icon="ui-icon-alert"
+                                   header="Confirmar Exclusão"
+                                   message="Tem Certeza que deseja excluir #{servicoBean.servicoSelecionado.descricao}"/>
+                    </p:commandButton>
+                    
+               
+
+                </f:facet>
+            </p:toolbar>           
+            <br/>
+            <p:dialog header="Servicos" 
+                      widgetVar="edicaoServicoDialog" 
+                      id="servico-dialog" 
+                      resizable="false"
+                      modal="true" 
+                      closeOnEscape="true">
+
+                <p:messages id="msgs-dialog" />
+
+                <p:panelGrid columns="2" id="panel-dialog" >
+                    <p:outputLabel value="Descricao" for="descricao"/>
+                    <p:inputText id="descricao"
+                                 value="#{servicoBean.servico.descricao}"/>
+
+                    <p:outputLabel value="Valor" for="valor"/>
+                    <p:inputText id="valor"
+                                 value="#{servicoBean.servico.valor}"/>
+
+
+                    <p:commandButton value="Salvar"
+                                     id="salvar-button"
+                                     action="#{servicoBean.salvar}"
+                                     process="servico-dialog"
+                                     update="msgs-dialog panel-dialog"
+                                     oncomplete="if(!args.validationFailed) PF('edicaoServicoDialog').hide()"/>
+
+                </p:panelGrid>
+
+                <!--            ADICIONAR DENTRO DO DIALOG-->
+            </p:dialog>
+
+            
+            <p:dataTable value="#{servicoBean.servicos}" var="servico"  
+                         id="servico-tabela"
+                         emptyMessage="Nenhum servico localizado"
+                         rows="10" paginator="true"
+                         paginatorPosition="bottom"
+                         selection="#{servicoBean.servicoSelecionado}"
+                         selectionMode="single"
+                         rowKey="#{servico.id}"
+                         >
+
+                <p:ajax event="rowSelect" update=":frm:toolbar" />
+                <p:ajax event="rowUnselect" update=":frm:toolbar" />
+
+
+                <p:column headerText="ID">
+                    <h:outputText value="#{servico.id}" />
+                </p:column>
+                <p:column headerText="Descricao" width="250" 
+                          sortBy="#{servico.descricao}">
+                    <h:outputText value="#{servico.descricao}" />
+                </p:column>
+                <p:column headerText="Valor">
+                    <h:outputText value="#{servico.valor}" />
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+    </ui:define>
+</ui:composition>   
