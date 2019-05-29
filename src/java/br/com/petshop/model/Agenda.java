@@ -6,6 +6,7 @@
 package br.com.petshop.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -33,7 +35,7 @@ public class Agenda implements Serializable{
     private Animal animal;
     
     private String status;
-
+    
     public Integer getId() {
         return id;
     }

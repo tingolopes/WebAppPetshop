@@ -100,7 +100,7 @@
                     <p:selectOneMenu id="proprietario" 
                                      value="#{animalBean.proprietarioId}" filter="true" style="width: 150px">
                         <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
-                        <f:selectItems value="#{animalBean.cliente}"
+                        <f:selectItems value="#{animalBean.clientes}"
                                        var="cliente"
                                        itemLabel="#{cliente.nome}"
                                        itemValue="#{cliente.id}"/>

@@ -18,10 +18,10 @@
                     <!--<p:commandButton value="Novo" icon="ui-icon-document" onclick="PF('edicaoClienteDialog').show;"/>-->
                     <p:commandButton value="Novo"                                       
                                      icon="ui-icon-document" 
-                                     action="#{servicoBean.prepararSalvar()}"
-                                     process="@this" update="servico-dialog"
+                                     action="#{agendaBean.prepararSalvar()}"
+                                     process="@this" update="agenda-dialog"
                                      oncomplete="PF('edicaoServicoDialog').show()">
-                        <p:resetInput target="servico-dialog" />
+                        <p:resetInput target="agenda-dialog" />
                     </p:commandButton>
                     
                      <span class="ui-separator">
@@ -29,23 +29,23 @@
                     </span>
                     <p:commandButton icon="ui-icon-pencil"
                                      title="Editar"
-                                     process="@this" update="servico-dialog"
+                                     process="@this" update="agenda-dialog"
                                      oncomplete="PF('edicaoServicoDialog').show()"
-                                     disabled="#{servicoBean.servicoSelecionado == null}">
-                        <p:resetInput target="servico-dialog" />
-                        <f:setPropertyActionListener value="#{servicoBean.servicoSelecionado}" 
-                                                     target="#{servicoBean.servico}" />
+                                     disabled="#{agendaBean.agendaSelecionado == null}">
+                        <p:resetInput target="agenda-dialog" />
+                        <f:setPropertyActionListener value="#{agendaBean.agendaSelecionado}" 
+                                                     target="#{agendaBean.agenda}" />
                     </p:commandButton>
                     <p:commandButton icon="ui-icon-trash" 
                                      title="Excluir"
                                      process="@this" 
-                                     update="servico-tabela msgs toolbar"
-                                     action="#{servicoBean.excluir()}"
-                                     disabled="#{servicoBean.servicoSelecionado == null}">
+                                     update="agenda-tabela msgs toolbar"
+                                     action="#{agendaBean.excluir()}"
+                                     disabled="#{agendaBean.agendaSelecionado == null}">
                         
                         <p:confirm icon="ui-icon-alert"
                                    header="Confirmar Exclusão"
-                                   message="Tem Certeza que deseja excluir #{servicoBean.servicoSelecionado.descricao}"/>
+                                   message="Tem Certeza que deseja excluir #{agendaBean.agendaSelecionado.animal}"/>
                     </p:commandButton>
                     
                
@@ -55,7 +55,7 @@
             <br/>
             <p:dialog header="Servicos" 
                       widgetVar="edicaoServicoDialog" 
-                      id="servico-dialog" 
+                      id="agenda-dialog" 
                       resizable="false"
                       modal="true" 
                       closeOnEscape="true">
@@ -63,21 +63,31 @@
                 <p:messages id="msgs-dialog" />
 
                 <p:panelGrid columns="2" id="panel-dialog" >
-                    <p:outputLabel value="Descricao" for="descricao"/>
-                    <p:inputText id="descricao"
-                                 value="#{servicoBean.servico.descricao}"/>
+                    <p:outputLabel value="Descricao" for="animal"/>
+                    <p:inputText id="animal"
+                                 value="#{agendaBean.agenda.animal}"/>
 
-                    <p:outputLabel value="Valor" for="valor"/>
-                    <p:inputText id="valor"
-                                 value="#{servicoBean.servico.valor}"/>
+                    <p:outputLabel value="Data Agendamento" for="dataagendamento"/>
+                    <p:inputText id="dataagendamento"
+                                 value="#{agendaBean.agenda.dataagendamento}"/>
+                    
+                    <p:outputLabel value="Serviço" for="servico"/>
+                    <p:selectOneMenu id="servico" 
+                                     value="#{agendaBean.servicos}" filter="true" style="width: 150px">
+                        <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
+                        <f:selectItems value="#{agendaBean.servicos}"
+                                       var="servico"
+                                       itemLabel="#{servico.descricao}"
+                                       itemValue="#{servico.id}"/>
+                    </p:selectOneMenu>
                     
                     <!--FAZER MASK PARA O VALOR-->
 
 
                     <p:commandButton value="Salvar"
                                      id="salvar-button"
-                                     action="#{servicoBean.salvar}"
-                                     process="servico-dialog"
+                                     action="#{agendaBean.salvar}"
+                                     process="agenda-dialog"
                                      update="msgs-dialog panel-dialog"
                                      oncomplete="if(!args.validationFailed) PF('edicaoServicoDialog').hide()"/>
 
@@ -87,14 +97,14 @@
             </p:dialog>
 
             
-            <p:dataTable value="#{servicoBean.servicos}" var="servico"  
-                         id="servico-tabela"
-                         emptyMessage="Nenhum servico localizado"
+            <p:dataTable value="#{agendaBean.agendas}" var="agenda"  
+                         id="agenda-tabela"
+                         emptyMessage="Nenhum agenda localizado"
                          rows="10" paginator="true"
                          paginatorPosition="bottom"
-                         selection="#{servicoBean.servicoSelecionado}"
+                         selection="#{agendaBean.agendaSelecionado}"
                          selectionMode="single"
-                         rowKey="#{servico.id}"
+                         rowKey="#{agenda.id}"
                          >
 
                 <p:ajax event="rowSelect" update=":frm:toolbar" />
@@ -102,14 +112,17 @@
 
 
                 <p:column headerText="ID" width="30">
-                    <h:outputText value="#{servico.id}" />
+                    <h:outputText value="#{agenda.id}" />
                 </p:column>
-                <p:column headerText="Descricao" width="250" 
-                          sortBy="#{servico.descricao}">
-                    <h:outputText value="#{servico.descricao}" />
+                <p:column headerText="Nome do Animal" width="250" 
+                          sortBy="#{agenda.animal.nome}">
+                    <h:outputText value="#{agenda.animal.nome}" />
                 </p:column>
-                <p:column headerText="Valor">
-                    <h:outputText value="#{servico.valor}" />
+                <p:column headerText="Data do Agendamento">
+                    <h:outputText value="#{agenda.dataagendamento}" />
+                </p:column>
+                <p:column headerText="Hora do Agendamento">
+                    <h:outputText value="#{agenda.horaagendamento}" />
                 </p:column>
             </p:dataTable>
 

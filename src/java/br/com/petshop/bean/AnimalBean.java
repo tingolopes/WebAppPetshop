@@ -68,7 +68,7 @@ public class AnimalBean {
         return new DAO<Raca>(Raca.class).listaTodos();
     }
 
-    public List<Cliente> getCliente() {
+    public List<Cliente> getClientes() {
         return new DAO(Cliente.class).listaTodos();
     }
 
