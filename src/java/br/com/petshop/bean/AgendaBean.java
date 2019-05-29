@@ -3,6 +3,7 @@ package br.com.petshop.bean;
 import br.com.petshop.dao.DAO;
 import br.com.petshop.dao.JPAUtil;
 import br.com.petshop.model.Agenda;
+import br.com.petshop.model.Animal;
 import br.com.petshop.model.Servico;
 import br.com.petshop.service.FacesMessages;
 import java.util.Arrays;
@@ -25,6 +26,10 @@ public class AgendaBean {
     
     public List<Servico> getServicos() {
         return new DAO(Servico.class).listaTodos();
+    }
+    
+    public List<Animal> getAnimais(){
+        return new DAO(Animal.class).listaTodos();
     }
 
     public Agenda getAgendaSelecionado() {

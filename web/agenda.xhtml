@@ -63,13 +63,20 @@
                 <p:messages id="msgs-dialog" />
 
                 <p:panelGrid columns="2" id="panel-dialog" >
-                    <p:outputLabel value="Descricao" for="animal"/>
-                    <p:inputText id="animal"
-                                 value="#{agendaBean.agenda.animal}"/>
 
                     <p:outputLabel value="Data Agendamento" for="dataagendamento"/>
                     <p:inputText id="dataagendamento"
                                  value="#{agendaBean.agenda.dataagendamento}"/>
+                    
+                    <p:outputLabel value="Animal" for="animal"/>
+                    <p:selectOneMenu id="animal" 
+                                     value="#{agendaBean.animais}" filter="true" style="width: 150px">
+                        <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
+                        <f:selectItems value="#{agendaBean.animais}"
+                                       var="animal"
+                                       itemLabel="#{animal.nome}"
+                                       itemValue="#{animal.id}"/>
+                    </p:selectOneMenu>
                     
                     <p:outputLabel value="Serviço" for="servico"/>
                     <p:selectOneMenu id="servico" 

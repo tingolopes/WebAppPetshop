@@ -18,3 +18,9 @@ insert into raca (raca) values ('Lulu da Pomerânia');
 insert into raca (raca) values ('Rottweiler');
 insert into raca (raca) values ('Bulldog Inglês');
 insert into raca (raca) values ('Lhasa Apso');
+
+INSERT INTO `animal` (`idade`, `nome`, `observacao`, `peso`, `porte`, `sexo`, `proprietario_id`, `raca_id`) VALUES
+(12, 'Dog', 'Não dar carne', 23, 'Grande', 'Macho', 1, 3),
+(12, 'Dog', 'Não dar leite', 21, 'Medio', 'Femea', 1, 3),
+(12, 'Dog', 'Não dar ovo', 23, 'Pequeno', 'Macho', 1, 2),
+(8, 'Thor', 'Lobo do mato', 43, 'Gigante', 'Macho', 5, 3);
