@@ -48,10 +48,10 @@ public class DashboardBean implements Serializable {
             @Override
             public void loadEvents(Date start, Date end) {
                 Date random = getRandomDate(start);
-                addEvent(new DefaultScheduleEvent("Lazy Event 1", random, random));
+                addEvent(new DefaultScheduleEvent("Novo evento", random, random));
                  
                 random = getRandomDate(start);
-                addEvent(new DefaultScheduleEvent("Lazy Event 2", random, random));
+                addEvent(new DefaultScheduleEvent("Novo evento 2", random, random));
             }   
         };
     }

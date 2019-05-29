@@ -29,6 +29,7 @@ public class ItemServico implements Serializable{
     @JoinColumn(name = "agenda_id")
     private Agenda agenda;
     
+    //mapeamento
     @ManyToOne
     @JoinColumn(name = "servico_id")
     private Servico servico;
