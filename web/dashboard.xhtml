@@ -44,16 +44,16 @@
         
             <h:panelGrid columnClasses="value">
                 <h3 style="margin-top: 0">Editable Schedule</h3>
-                <p:schedule id="schedule" value="#{agendaBean.eventModel}" 
+                <p:schedule id="schedule" value="#{dashboardBean.eventModel}" 
                             widgetVar="myschedule" timeZone="GMT-4" locale="br">
 
-                    <p:ajax event="dateSelect" listener="#{agendaBean.onDateSelect}" 
+                    <p:ajax event="dateSelect" listener="#{dashboardBean.onDateSelect}" 
                             update="eventDetails" oncomplete="PF('eventDialog').show();" />
-                    <p:ajax event="eventSelect" listener="#{agendaBean.onEventSelect}" 
+                    <p:ajax event="eventSelect" listener="#{dashboardBean.onEventSelect}" 
                             update="eventDetails" oncomplete="PF('eventDialog').show();" />
-                    <p:ajax event="eventMove" listener="#{agendaBean.onEventMove}" 
+                    <p:ajax event="eventMove" listener="#{dashboardBean.onEventMove}" 
                             update="messages" />
-                    <p:ajax event="eventResize" listener="#{agendaBean.onEventResize}" 
+                    <p:ajax event="eventResize" listener="#{dashboardBean.onEventResize}" 
                             update="messages" />
 
                 </p:schedule>
@@ -63,21 +63,21 @@
             <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">
                 <h:panelGrid id="eventDetails" columns="2">
                     <p:outputLabel for="title" value="Titles:" />
-                    <p:inputText id="title" value="#{agendaBean.event.title}" required="true" />
+                    <p:inputText id="title" value="#{dashboardBean.event.title}" required="true" />
 
                     <p:outputLabel for="from" value="From:" />
-                    <p:calendar id="from" value="#{agendaBean.event.startDate}" 
+                    <p:calendar id="from" value="#{dashboardBean.event.startDate}" 
                                 timeZone="GMT-4" pattern="dd/MM/yyyy HH:mm"/>
 
                     <p:outputLabel for="to" value="To:" />
-                    <p:calendar id="to" value="#{agendaBean.event.endDate}" 
+                    <p:calendar id="to" value="#{dashboardBean.event.endDate}" 
                                 timeZone="GMT-4" pattern="dd/MM/yyyy HH:mm"/>
 
                     <p:outputLabel for="allDay" value="All Day:" />
-                    <h:selectBooleanCheckbox id="allDay" value="#{agendaBean.event.allDay}" />
+                    <h:selectBooleanCheckbox id="allDay" value="#{dashboardBean.event.allDay}" />
 
                     <p:commandButton type="reset" value="Reset" />
-                    <p:commandButton id="addButton" value="Save" action="#{agendaBean.addEvent}" 
+                    <p:commandButton id="addButton" value="Save" action="#{dashboardBean.addEvent}" 
                                      oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
                 </h:panelGrid>
             </p:dialog>    

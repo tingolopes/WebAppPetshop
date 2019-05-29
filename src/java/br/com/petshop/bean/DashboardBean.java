@@ -28,7 +28,7 @@ import org.primefaces.model.ScheduleModel;
  */
 @ManagedBean
 @ViewScoped
-public class AgendaBean implements Serializable {
+public class DashboardBean implements Serializable {
  
     private ScheduleModel eventModel;
      
