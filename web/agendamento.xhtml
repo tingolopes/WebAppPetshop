@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="WEB-INF/template/Layout.xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="conteudo">
+        <h:form id="frm">
+            <p:messages id="msgs"/>
+
+            <p:toolbar id="toolbar">
+                <f:facet name="left">
+                    <p:inputText placeholder="Informe um termo para pesquisa..." size="30" />
+                    <p:commandButton value="Pesquisar" icon="fa fa fa-search"/>
+                    <span class="ui-separator">
+                        <span class="ui-icon ui-icon-grip-dotted-vertical"/>
+                    </span>
+
+                </f:facet>
+                <f:facet name="right">
+                    <p:commandButton value="Novo" icon="fa fa fa-plus"
+                                     process="@this" update="agendamento-dialog"
+                                     oncomplete="PF('edicaoAgendamentoDialog').show()"/>
+
+                    <p:commandButton value="Editar" icon="fa fa fa-edit"/>
+                    <p:commandButton value="Cancelar" icon="fa fa fa-pause"/>
+                </f:facet>
+
+            </p:toolbar>
+
+            <p:dataTable value="#{[0,0,0,0,0]}" 
+                         var="agenda" style="margin-top: 20px;"
+                         emptyMessage="Nenhum agendamento localizado."
+                         rows="10" paginator="true"
+                         paginatorPosition="bottom">
+
+                <p:column headerText="Data">
+                    <h:outputText value="29/05/2019" />
+                </p:column>
+                <p:column headerText="Hora">
+                    <h:outputText value="15:30" />
+                </p:column>
+                <p:column headerText="Cliente">
+                    <h:outputText value="Jon Snow" />
+                </p:column>
+                <p:column headerText="Animal">
+                    <h:outputText value="JFantasmao" />
+                </p:column>
+                <p:column headerText="Status">
+                    <h:outputText value="Finalizado" />
+                </p:column>
+                <p:column headerText="Pagamento">
+                    <h:outputText value="Dinheiro" />
+                </p:column>
+            </p:dataTable>
+
+            <!-- DIALOG -->
+
+            <p:dialog header="Novo Agendamento"
+                      id="agendamento-dialog"
+                      widgetVar="edicaoAgendamentoDialog"
+                      resizable="false" modal="true" closeOnEscape="true">
+
+                <p:tabView style="width: 650px">
+                    <p:tab title="Agenda">
+
+                    </p:tab>
+                    <p:tab title="Serviços">
+
+                    </p:tab>
+                </p:tabView>
+            </p:dialog>
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>

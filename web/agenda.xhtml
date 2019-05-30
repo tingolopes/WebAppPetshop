@@ -36,6 +36,8 @@
                         <f:setPropertyActionListener value="#{agendaBean.agendaSelecionado}" 
                                                      target="#{agendaBean.agenda}" />
                     </p:commandButton>
+                         
+                     <!--ALTERAR PARA CANCELAR -- NUNCA PODE EXCLUIR UM AGENDAMENTO-->    
                     <p:commandButton icon="ui-icon-trash" 
                                      title="Excluir"
                                      process="@this" 
@@ -117,7 +119,8 @@
                 <p:ajax event="rowSelect" update=":frm:toolbar" />
                 <p:ajax event="rowUnselect" update=":frm:toolbar" />
 
-
+                <!--INSERIR MAIS INTENS NO FORMULARIO-->
+                
                 <p:column headerText="ID" width="30">
                     <h:outputText value="#{agenda.id}" />
                 </p:column>

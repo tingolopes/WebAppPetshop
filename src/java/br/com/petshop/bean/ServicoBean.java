@@ -38,7 +38,7 @@ public class ServicoBean {
     public void salvar() {
         Integer id = this.servico.getId();
         String operacao = "";
-        if (id == 0) {
+        if (id == null) {
             SERVICODAO.salvar(this.servico);
             operacao = "salvo";
         } else {
