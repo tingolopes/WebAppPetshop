@@ -1,26 +1,21 @@
 package br.com.petshop.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-
 
 @Entity
-//@Table(name = "servico")
 public class Servico implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @Column
+    private Integer id;
     private String descricao;
-    @Column
-    private String valor;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal valor = BigDecimal.ZERO;
     
     public int getId() {
         return id;
@@ -38,11 +33,11 @@ public class Servico implements Serializable{
         this.descricao = descricao;
     }
 
-    public String getValor() {
+    public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(String valor) {
+    public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
 
