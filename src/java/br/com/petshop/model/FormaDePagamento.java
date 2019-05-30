@@ -3,5 +3,20 @@ package br.com.petshop.model;
 import java.io.Serializable;
 
 public enum FormaDePagamento implements Serializable {
-    DINHEIRO, CARTAO_CREDITO, CARTAO_DEBITO, CHEQUE, BOLETO_BANCARIO, DEPOSITO_BANCARIO;
+    CHEQUE("Cheque"), 
+    DINHEIRO("Dinheiro"), 
+    CARTAO_DEBITO("Cartao de Débito"), 
+    BOLETO_BANCARIO("Boleto Bancário"), 
+    CARTAO_CREDITO("Cartão de Crédito"), 
+    DEPOSITO_BANCARIO("Depósito Bancário");
+    
+    private final String DESCRICAO;
+
+    private FormaDePagamento(String descricao) {
+        this.DESCRICAO = descricao;
+    }
+    
+    public String getDescricaco(){
+        return DESCRICAO;
+    }
 }

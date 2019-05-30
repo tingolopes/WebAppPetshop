@@ -15,7 +15,6 @@ public class Animal implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "nome")
     private String nome;
     
     private Integer idade;
@@ -26,13 +25,11 @@ public class Animal implements Serializable{
     @JoinColumn(name = "raca_id")
     private Raca raca;
     
-    @Column(name = "porte")
     private String porte;
     
     @ManyToOne
     @JoinColumn(name = "proprietario_id")
     private Cliente proprietario;
-    @Column(name = "observacao")
     private String observacao;
 
     public Integer getIdade() {

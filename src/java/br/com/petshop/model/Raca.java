@@ -13,7 +13,6 @@ public class Raca implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "raca")
     private String raca;
 
     public Integer getId() {

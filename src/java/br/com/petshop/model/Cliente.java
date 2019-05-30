@@ -14,17 +14,11 @@ public class Cliente implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "nome", nullable = false, length = 200)
     private String nome;
-    @Column(name = "rg")
     private String RG;
-    @Column(name = "cpf")
     private String CPF;
-    @Column(name = "telefone")
     private String telefone;
-    @Column(name = "email")
     private String email;
-    @Column(name = "endereco")
     private String endereco;
 
     public int getId() {
