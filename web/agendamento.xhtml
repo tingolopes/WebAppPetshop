@@ -32,29 +32,33 @@
 
             </p:toolbar>
 
-            <p:dataTable value="#{[0,0,0,0,0]}" 
-                         var="agenda" style="margin-top: 20px;"
-                         emptyMessage="Nenhum agendamento localizado."
+            <p:dataTable value="#{agendaBean.agendas}" var="agenda"  
+                         id="agenda-tabela"
+                         emptyMessage="Nenhum agendamento localizado"
                          rows="10" paginator="true"
-                         paginatorPosition="bottom">
+                         paginatorPosition="bottom"
+                         selection="#{agendaBean.agendaSelecionado}"
+                         selectionMode="single"
+                         rowKey="#{agenda.id}"
+                         >
 
                 <p:column headerText="Data">
-                    <h:outputText value="29/05/2019" />
+                    <h:outputText value="#{agenda.dataagendamento}" />
                 </p:column>
                 <p:column headerText="Hora">
-                    <h:outputText value="15:30" />
+                    <h:outputText value="#{agenda.horaagendamento}" />
                 </p:column>
                 <p:column headerText="Cliente">
-                    <h:outputText value="Jon Snow" />
+                    <h:outputText value="#{agenda.animal.proprietario.nome}" />
                 </p:column>
                 <p:column headerText="Animal">
-                    <h:outputText value="JFantasmao" />
+                    <h:outputText value="#{agenda.animal.nome}" />
                 </p:column>
                 <p:column headerText="Status">
-                    <h:outputText value="Finalizado" />
+                    <h:outputText value="#{agenda.status}" />
                 </p:column>
                 <p:column headerText="Pagamento">
-                    <h:outputText value="Dinheiro" />
+                    <h:outputText value="#{agenda.formaDePagamento}" />
                 </p:column>
             </p:dataTable>
 

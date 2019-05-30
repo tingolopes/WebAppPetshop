@@ -23,8 +23,8 @@
                                      oncomplete="PF('edicaoServicoDialog').show()">
                         <p:resetInput target="agenda-dialog" />
                     </p:commandButton>
-                    
-                     <span class="ui-separator">
+
+                    <span class="ui-separator">
                         <span class="ui-icon ui-icon-grip-dotted-vertical"/>
                     </span>
                     <p:commandButton icon="ui-icon-pencil"
@@ -36,21 +36,21 @@
                         <f:setPropertyActionListener value="#{agendaBean.agendaSelecionado}" 
                                                      target="#{agendaBean.agenda}" />
                     </p:commandButton>
-                         
-                     <!--ALTERAR PARA CANCELAR -- NUNCA PODE EXCLUIR UM AGENDAMENTO-->    
+
+                    <!--ALTERAR PARA CANCELAR -- NUNCA PODE EXCLUIR UM AGENDAMENTO-->    
                     <p:commandButton icon="ui-icon-trash" 
                                      title="Excluir"
                                      process="@this" 
                                      update="agenda-tabela msgs toolbar"
                                      action="#{agendaBean.excluir()}"
                                      disabled="#{agendaBean.agendaSelecionado == null}">
-                        
+
                         <p:confirm icon="ui-icon-alert"
                                    header="Confirmar Exclusão"
                                    message="Tem Certeza que deseja excluir #{agendaBean.agendaSelecionado.animal}"/>
                     </p:commandButton>
-                    
-               
+
+
 
                 </f:facet>
             </p:toolbar>           
@@ -69,7 +69,7 @@
                     <p:outputLabel value="Data Agendamento" for="dataagendamento"/>
                     <p:inputText id="dataagendamento"
                                  value="#{agendaBean.agenda.dataagendamento}"/>
-                    
+
                     <p:outputLabel value="Animal" for="animal"/>
                     <p:selectOneMenu id="animal" 
                                      value="#{agendaBean.animais}" filter="true" style="width: 150px">
@@ -79,7 +79,7 @@
                                        itemLabel="#{animal.nome}"
                                        itemValue="#{animal.id}"/>
                     </p:selectOneMenu>
-                    
+
                     <p:outputLabel value="Serviço" for="servico"/>
                     <p:selectOneMenu id="servico" 
                                      value="#{agendaBean.servicos}" filter="true" style="width: 150px">
@@ -89,7 +89,7 @@
                                        itemLabel="#{servico.descricao}"
                                        itemValue="#{servico.id}"/>
                     </p:selectOneMenu>
-                    
+
                     <!--FAZER MASK PARA O VALOR-->
 
 
@@ -105,7 +105,7 @@
                 <!--            ADICIONAR DENTRO DO DIALOG-->
             </p:dialog>
 
-            
+
             <p:dataTable value="#{agendaBean.agendas}" var="agenda"  
                          id="agenda-tabela"
                          emptyMessage="Nenhum agendamento localizado"
@@ -120,7 +120,7 @@
                 <p:ajax event="rowUnselect" update=":frm:toolbar" />
 
                 <!--INSERIR MAIS INTENS NO FORMULARIO-->
-                
+
                 <p:column headerText="ID" width="30">
                     <h:outputText value="#{agenda.id}" />
                 </p:column>
