@@ -1,7 +1,9 @@
 package br.com.petshop.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -10,26 +12,33 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
-public class Agenda implements Serializable{
+public class Agenda implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
-    private String dataagendamento;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "data_agendamento")
+    private Date dataAgendamento;
 
-    private String horaagendamento;
-    
-    @Enumerated(EnumType.STRING)
-    private FormaDePagamento formaDePagamento;
-    
+    @Temporal(TemporalType.TIME)
+    @Column(name = "hora_agendamento")
+    private Date horaAgendamento;
+
     @ManyToOne
     @JoinColumn(name = "animal_id")
     private Animal animal;
-    
+
     private String status;
-    
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "forma_de_pagamento")
+    private FormaDePagamento formaDePagamento;
+
     public FormaDePagamento getFormaDePagamento() {
         return formaDePagamento;
     }
@@ -37,7 +46,7 @@ public class Agenda implements Serializable{
     public void setFormaDePagamento(FormaDePagamento formaDePagamento) {
         this.formaDePagamento = formaDePagamento;
     }
-    
+
     public Integer getId() {
         return id;
     }
@@ -46,20 +55,20 @@ public class Agenda implements Serializable{
         this.id = id;
     }
 
-    public String getDataagendamento() {
-        return dataagendamento;
+    public Date getDataagendamento() {
+        return dataAgendamento;
     }
 
-    public void setDataagendamento(String dataagendamento) {
-        this.dataagendamento = dataagendamento;
+    public void setDataagendamento(Date dataAgendamento) {
+        this.dataAgendamento = dataAgendamento;
     }
 
-    public String getHoraagendamento() {
-        return horaagendamento;
+    public Date getHoraagendamento() {
+        return horaAgendamento;
     }
 
-    public void setHoraagendamento(String horaagendamento) {
-        this.horaagendamento = horaagendamento;
+    public void setHoraagendamento(Date horaAgendamento) {
+        this.horaAgendamento = horaAgendamento;
     }
 
     public Animal getAnimal() {
@@ -102,5 +111,9 @@ public class Agenda implements Serializable{
         }
         return true;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Agenda{" + "id=" + id + '}';
+    }
 }
