@@ -1,7 +1,9 @@
 package br.com.petshop.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,22 +12,22 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class ItemServico implements Serializable{
-    
+public class ItemServico implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
+
     @ManyToOne
     @JoinColumn(name = "agenda_id")
     private Agenda agenda;
-    
-    //mapeamento
+
     @ManyToOne
     @JoinColumn(name = "servico_id")
     private Servico servico;
-    
-    private Double valor;
+
+    @Column(precision = 10, scale = 2)
+    private BigDecimal valor = BigDecimal.ZERO;
 
     public Integer getId() {
         return id;
@@ -51,11 +53,11 @@ public class ItemServico implements Serializable{
         this.servico = servico;
     }
 
-    public Double getValor() {
+    public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(Double valor) {
+    public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
 
@@ -83,7 +85,5 @@ public class ItemServico implements Serializable{
         }
         return true;
     }
-    
-    
-    
+
 }
