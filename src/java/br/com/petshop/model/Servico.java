@@ -16,15 +16,15 @@ public class Servico implements Serializable{
     private String descricao;
     @Column(precision = 10, scale = 2)
     private BigDecimal valor = BigDecimal.ZERO;
-    
-    public int getId() {
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
-
+    
     public String getDescricao() {
         return descricao;
     }
