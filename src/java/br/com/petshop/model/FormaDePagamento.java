@@ -16,7 +16,7 @@ public enum FormaDePagamento implements Serializable {
         this.DESCRICAO = descricao;
     }
     
-    public String getDescricaco(){
+    public String getDescricao(){
         return DESCRICAO;
     }
 }

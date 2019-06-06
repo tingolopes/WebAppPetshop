@@ -26,6 +26,15 @@ public class DAO<T> {
         em.close();
     }
     
+    public T salvarComRetorno(T t){
+        EntityManager em = new JPAUtil().getEntityManager();
+        em.getTransaction().begin();
+        T instancia = em.merge(t);
+        em.getTransaction().commit();
+        em.close();
+        return instancia;
+    }
+    
     public void alterar(T t){
         EntityManager em = new JPAUtil().getEntityManager();
         em.getTransaction().begin();

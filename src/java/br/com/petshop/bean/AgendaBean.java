@@ -4,25 +4,35 @@ import br.com.petshop.dao.DAO;
 import br.com.petshop.dao.JPAUtil;
 import br.com.petshop.model.Agenda;
 import br.com.petshop.model.Animal;
+import br.com.petshop.model.FormaDePagamento;
 import br.com.petshop.model.Servico;
 import br.com.petshop.service.FacesMessages;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
 import javax.persistence.EntityManager;
 import org.primefaces.PrimeFaces;
 
 @ManagedBean
-@ViewScoped
-public class AgendaBean {
+@RequestScoped
+public class AgendaBean implements Serializable{
 
     private EntityManager em = new JPAUtil().getEntityManager();
     private FacesMessages messages = new FacesMessages();
 
-    private final DAO<Agenda> SERVICODAO = new DAO<>(Agenda.class);
-    private Agenda agenda;
+    private DAO<Agenda> agendaDao = new DAO<>(Agenda.class);
+    private Agenda agenda = new Agenda();
     private Agenda agendaSelecionado;
+    
+    public void salvar(){
+        this.agenda = agendaDao.salvarComRetorno(this.agenda);
+    }
+    
+    public FormaDePagamento[] getFormaDePagamentos(){
+        return FormaDePagamento.values();
+    }
     
     public List<Servico> getServicos() {
         return new DAO(Servico.class).listaTodos();
@@ -44,24 +54,24 @@ public class AgendaBean {
         agenda = new Agenda();
     }
 
-    public void salvar() {
-        Integer id = this.agenda.getId();
-        String operacao = "";
-        if (id == 0) {
-            SERVICODAO.salvar(this.agenda);
-            operacao = "salvo";
-        } else {
-            SERVICODAO.alterar(this.agenda);
-            operacao = "alterado";
-        }
-        messages.info("Serviço " + operacao + " com sucesso");
-        PrimeFaces.current().ajax().update(
-                Arrays.asList("frm:msgs", "frm:agenda-tabela")
-        );
-    }
+//    public void salvar() {
+//        Integer id = this.agenda.getId();
+//        String operacao = "";
+//        if (id == 0) {
+//            agendaDao.salvar(this.agenda);
+//            operacao = "salvo";
+//        } else {
+//            agendaDao.alterar(this.agenda);
+//            operacao = "alterado";
+//        }
+//        messages.info("Serviço " + operacao + " com sucesso");
+//        PrimeFaces.current().ajax().update(
+//                Arrays.asList("frm:msgs", "frm:agenda-tabela")
+//        );
+//    }
 
     public void excluir() {
-        SERVICODAO.excluir(this.agendaSelecionado);
+        agendaDao.excluir(this.agendaSelecionado);
         this.agendaSelecionado = null;
 
         getAgendas();
@@ -69,7 +79,7 @@ public class AgendaBean {
     }
 
     public List<Agenda> getAgendas() {
-        List<Agenda> listaSevicos = SERVICODAO.listaTodos();
+        List<Agenda> listaSevicos = agendaDao.listaTodos();
         return listaSevicos;
     }
 
