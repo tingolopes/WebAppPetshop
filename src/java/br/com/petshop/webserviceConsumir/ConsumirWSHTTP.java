@@ -50,8 +50,10 @@ public class ConsumirWSHTTP {
         cliente.setEndereco("Rua azul e amarela");
         String json2 = gson.toJson(cliente, clienteType);
         //para alterar apenas mudar a url para alterar
+//        String urlInserir = "http://localhost:8080/WebAppPetShop/webresources/petshop/cliente/alterar";
         String urlInserir = "http://localhost:8080/WebAppPetShop/webresources/petshop/cliente/inserir";
         //e mudar este parâmetro para PUT
+//        String retorno = http.sendPost(urlInserir, json2, "PUT");
         String retorno = http.sendPost(urlInserir, json2, "POST");
         System.out.println(retorno);
 
