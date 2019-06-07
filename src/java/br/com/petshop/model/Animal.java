@@ -16,10 +16,10 @@ public class Animal implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
-    
     private Integer idade;
     private Double peso;
     private String sexo;
+    private String img;
     
     @ManyToOne
     @JoinColumn(name = "raca_id")
@@ -56,8 +56,6 @@ public class Animal implements Serializable{
         this.sexo = sexo;
     }
 
-    
-    
     public Integer getId() {
         return id;
     }
@@ -104,6 +102,14 @@ public class Animal implements Serializable{
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 
     @Override

@@ -17,10 +17,10 @@ INSERT INTO raca (raca) VALUES ('Rottweiler');
 INSERT INTO raca (raca) VALUES ('Bulldog Inglês');
 INSERT INTO raca (raca) VALUES ('Lhasa Apso');
 
-INSERT INTO animal (idade, img, nome, observacao, peso, porte, sexo, proprietario_id, raca_id) VALUES (12, 'https://i.ibb.co/ssyncrB/filhotes-de-cachorro-alcanc3a7am-o-c3a1pice-de-fofura-com-8-semanas1-1.png', 'Thor', 'Não dar carne', 23, 'Grande', 'Macho', 1, 3);
-INSERT INTO animal (idade, img, nome, observacao, peso, porte, sexo, proprietario_id, raca_id) VALUES(12, 'https://i.ibb.co/ssyncrB/filhotes-de-cachorro-alcanc3a7am-o-c3a1pice-de-fofura-com-8-semanas1-1.png', 'Brile', 'Não dar leite', 21, 'Medio', 'Femea', 2, 3);
-INSERT INTO animal (idade, img, nome, observacao, peso, porte, sexo, proprietario_id, raca_id) VALUES(12, 'https://i.ibb.co/ssyncrB/filhotes-de-cachorro-alcanc3a7am-o-c3a1pice-de-fofura-com-8-semanas1-1.png', 'Deputado', 'Não dar ovo', 23, 'Pequeno', 'Macho', 3, 2);
-INSERT INTO animal (idade, ing, nome, observacao, peso, porte, sexo, proprietario_id, raca_id) VALUES(8, 'https://i.ibb.co/ssyncrB/filhotes-de-cachorro-alcanc3a7am-o-c3a1pice-de-fofura-com-8-semanas1-1.png', 'Senador', 'Lobo do mato', 43, 'Gigante', 'Macho', 4, 3);
+INSERT INTO animal (idade, img, nome, observacao, peso, porte, sexo, proprietario_id, raca_id) VALUES (12, 'https://img.olx.com.br/thumbs256x256/52/528905018311816.jpg', 'Thor', 'Não dar carne', 23, 'Grande', 'Macho', 1, 3);
+INSERT INTO animal (idade, img, nome, observacao, peso, porte, sexo, proprietario_id, raca_id) VALUES(12, 'https://img.olx.com.br/thumbs256x256/19/198903009289266.jpg', 'Brile', 'Não dar leite', 21, 'Medio', 'Femea', 2, 3);
+INSERT INTO animal (idade, img, nome, observacao, peso, porte, sexo, proprietario_id, raca_id) VALUES(8, 'https://img.olx.com.br/thumbs256x256/71/712806117380029.jpg', 'Senador', 'Lobo do mato', 43, 'Gigante', 'Macho', 4, 3);
+INSERT INTO animal (idade, img, nome, observacao, peso, porte, sexo, proprietario_id, raca_id) VALUES(12, 'https://img.olx.com.br/thumbs256x256/38/383922006080815.jpg', 'Deputado', 'Não dar ovo', 23, 'Pequeno', 'Macho', 3, 2);
 
 INSERT INTO servico (descricao, valor ) VALUES ('Banho', '15.00');
 INSERT INTO servico (descricao, valor ) VALUES ('Tosa', '30.00');

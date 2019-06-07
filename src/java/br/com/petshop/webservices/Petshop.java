@@ -59,7 +59,7 @@ public class Petshop {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("animal/list")
+    @Path("animal")
     public String listAnimais() {
         Gson g = new Gson();
         return g.toJson(new DAO<>(Animal.class).listaTodos());
@@ -89,7 +89,7 @@ public class Petshop {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("animal/get/{id}")
+    @Path("animal/{id}")
     public String getAnimal(@PathParam("id") Integer id) {
         Animal a = new Animal();
         a.setId(id);
@@ -158,10 +158,11 @@ public class Petshop {
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("animal/inserir")
+    @Path("animal")
     public String inserirAnimal(String content){
         Gson g = new Gson();
         Animal a = (Animal) g.fromJson(content, Animal.class);
+        a.setId(null);
         new DAO<>(Animal.class).salvar(a);
         return "Registro salvo com sucesso!";
     }
@@ -191,7 +192,7 @@ public class Petshop {
     
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("animal/alterar")
+    @Path("animal")
     public void alterarAnimal(String content) {
         Gson g = new Gson();
         Animal a = (Animal) g.fromJson(content, Animal.class);
