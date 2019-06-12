@@ -1,6 +1,8 @@
 package br.com.petshop.webserviceConsumir;
 
+import br.com.petshop.model.Animal;
 import br.com.petshop.model.Cliente;
+import br.com.petshop.model.Raca;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;
@@ -28,7 +30,7 @@ public class ConsumirWSHTTP {
        
 
         //Consultar Cliente
-        String url = "http://localhost:8080/WebAppPetShop/webresources/petshop/cliente/list";
+        String url = "http://localhost:8080/WebAppPetshop2/webresources/petshop/cliente/list";
         String json = http.sendGet(url, "GET");
         List<Cliente> lista = new LinkedList<>();
         lista = gson.fromJson(json, clienteTypeLista);
@@ -50,17 +52,35 @@ public class ConsumirWSHTTP {
         cliente.setEndereco("Rua azul e amarela");
         String json2 = gson.toJson(cliente, clienteType);
         //para alterar apenas mudar a url para alterar
-//        String urlInserir = "http://localhost:8080/WebAppPetShop/webresources/petshop/cliente/alterar";
-        String urlInserir = "http://localhost:8080/WebAppPetShop/webresources/petshop/cliente/inserir";
+//        String urlInserir = "http://localhost:8080/WebAppPetShop2/webresources/petshop/cliente/alterar";
+        String urlInserir = "http://localhost:8080/WebAppPetshop2/webresources/petshop/cliente/inserir/";
         //e mudar este parâmetro para PUT
 //        String retorno = http.sendPost(urlInserir, json2, "PUT");
         String retorno = http.sendPost(urlInserir, json2, "POST");
         System.out.println(retorno);
 
+        Animal animal = new Animal();
+        Type animalType = new TypeToken<Animal>() {
+        }.getType();
+        
+        animal.setNome("Bob");
+        animal.setIdade(5);
+        Raca raca = new Raca();
+        raca.setId(1);
+        animal.setRaca(raca);
+        cliente.setId(1);
+        animal.setProprietario(cliente);
+        String json3 = gson.toJson(animal, animalType);
+        String urlInserir2 = "http://localhost:8080/WebAppPetshop2/webresources/petshop/animal/inserir/";
+        
+        String retorno2 = http.sendPost(urlInserir2, json3, "POST");
+        System.out.println(retorno2);
+        
+        
         //excluir cliente
-        String urlExcluir = "http://localhost:8080/WebAppPetShop/webresources/petshop/cliente/excluir/12";
-        String retorno2 = http.sendGet(urlExcluir, "GET");
-        System.out.println(retorno);
+//        String urlExcluir = "http://localhost:8080/WebAppPetShop2/webresources/petshop/cliente/excluir/4";
+//        String retorno2 = http.sendGet(urlExcluir, "GET");
+//        System.out.println(retorno);
         
     }
 
