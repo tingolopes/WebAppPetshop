@@ -4,16 +4,15 @@ import br.com.petshop.dao.DAO;
 import br.com.petshop.dao.JPAUtil;
 import br.com.petshop.model.Agenda;
 import br.com.petshop.model.Animal;
+import br.com.petshop.model.Cliente;
 import br.com.petshop.model.FormaDePagamento;
 import br.com.petshop.model.Servico;
 import br.com.petshop.service.FacesMessages;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.persistence.EntityManager;
-import org.primefaces.PrimeFaces;
 
 @ManagedBean
 @RequestScoped
@@ -25,6 +24,8 @@ public class AgendaBean implements Serializable{
     private DAO<Agenda> agendaDao = new DAO<>(Agenda.class);
     private Agenda agenda = new Agenda();
     private Agenda agendaSelecionado;
+    private Integer proprietarioId;
+    private Integer animalId;
     
     public void salvar(){
         this.agenda = agendaDao.salvarComRetorno(this.agenda);
@@ -40,6 +41,26 @@ public class AgendaBean implements Serializable{
     
     public List<Animal> getAnimais(){
         return new DAO(Animal.class).listaTodos();
+    }
+    
+    public List<Cliente> getClientes(){
+        return new DAO(Cliente.class).listaTodos();
+    }
+
+    public Integer getAnimalId() {
+        return animalId;
+    }
+
+    public void setAnimalId(Integer animalId) {
+        this.animalId = animalId;
+    }
+    
+    public Integer getProprietarioId() {
+        return proprietarioId;
+    }
+
+    public void setProprietarioId(Integer proprietarioId) {
+        this.proprietarioId = proprietarioId;
     }
 
     public Agenda getAgendaSelecionado() {

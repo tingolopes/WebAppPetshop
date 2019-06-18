@@ -76,8 +76,24 @@
                             <p:calendar id="data" value="#{agendaBean.agenda.dataagendamento}"/>
                             <p:outputLabel value="Horário" for="hora"/>
                             <p:calendar id="hora" pattern="HH:mm" timeOnly="true"/>
+                            <p:outputLabel value="Proprietário" for="proprietario"/>
+                            <p:selectOneMenu id="proprietario" 
+                                             value="#{agendaBean.proprietarioId}" filter="true" style="width: 160px">
+                                <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
+                                <f:selectItems value="#{agendaBean.clientes}"
+                                               var="cliente"
+                                               itemLabel="#{cliente.nome}"
+                                               itemValue="#{cliente.id}"/>
+                            </p:selectOneMenu>
                             <p:outputLabel value="Animal" for="animal"/>
-                            <p:autoComplete id="animal" />
+                            <p:selectOneMenu id="animal" 
+                                             value="#{agendaBean.ani}" filter="true" style="width: 160px">
+                                <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
+                                <f:selectItems value="#{agendaBean.clientes}"
+                                               var="animal"
+                                               itemLabel="#{cliente.nome}"
+                                               itemValue="#{cliente.id}"/>
+                            </p:selectOneMenu>
                             <p:outputLabel value="Status" for="status"/>
                             <p:selectOneRadio id="status">
                                 <f:selectItem itemLabel="Em espera" itemValue="Em espera"/>
@@ -88,9 +104,9 @@
                             <p:selectOneMenu id="pagamento">
                                 <f:selectItem itemLabel="Selecione..."/>
                                 <f:selectItems value="#{agendaBean.formaDePagamentos}"
-                                              var="pagamento"
-                                              itemLabel="#{pagamento.descricao}"
-                                              itemValue="#{pagamento}"/>
+                                               var="pagamento"
+                                               itemLabel="#{pagamento.descricao}"
+                                               itemValue="#{pagamento}"/>
                             </p:selectOneMenu>
                         </p:panelGrid>
                     </p:tab>
