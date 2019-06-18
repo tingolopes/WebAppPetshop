@@ -87,12 +87,12 @@
                             </p:selectOneMenu>
                             <p:outputLabel value="Animal" for="animal"/>
                             <p:selectOneMenu id="animal" 
-                                             value="#{agendaBean.ani}" filter="true" style="width: 160px">
+                                             value="#{agendaBean.animalId}" filter="true" style="width: 160px">
                                 <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
-                                <f:selectItems value="#{agendaBean.clientes}"
+                                <f:selectItems value="#{agendaBean.animais}"
                                                var="animal"
-                                               itemLabel="#{cliente.nome}"
-                                               itemValue="#{cliente.id}"/>
+                                               itemLabel="#{animal.nome}"
+                                               itemValue="#{animal.id}"/>
                             </p:selectOneMenu>
                             <p:outputLabel value="Status" for="status"/>
                             <p:selectOneRadio id="status">
