@@ -9,12 +9,9 @@ import br.com.petshop.model.FormaDePagamento;
 import br.com.petshop.model.Servico;
 import br.com.petshop.service.FacesMessages;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.model.SelectItem;
-import javax.faces.model.SelectItemGroup;
 import javax.persistence.EntityManager;
 
 @ManagedBean
@@ -29,25 +26,6 @@ public class AgendaBean implements Serializable{
     private Agenda agendaSelecionado;
     private Integer proprietarioId;
     private Integer animalId;
-    private Animal animal;
-    private List<Animal> animais;
-    private Cliente cliente;
-
-    public Animal getAnimal() {
-        return animal;
-    }
-
-    public void setAnimal(Animal animal) {
-        this.animal = animal;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
     
     public void salvar(){
         this.agenda = agendaDao.salvarComRetorno(this.agenda);
@@ -60,13 +38,9 @@ public class AgendaBean implements Serializable{
     public List<Servico> getServicos() {
         return new DAO(Servico.class).listaTodos();
     }
-
-    public List<SelectItem> getAnimais() {
-        return animais;
-    }
-
-    public void setAnimais(List<SelectItem> animais) {
-        this.animais = animais;
+    
+    public List<Animal> getAnimais(){
+        return new DAO(Animal.class).listaTodos();
     }
     
     public List<Cliente> getClientes(){
@@ -136,16 +110,5 @@ public class AgendaBean implements Serializable{
 
     public void setAgenda(Agenda agenda) {
         this.agenda = agenda;
-    }
-    
-    public List completeText(CharSequence pesquisa){
-        pesquisa = pesquisa.toString().trim().toLowerCase();
-        List<Cliente> lista = new ArrayList<>();
-        for(int i = 0; i < getClientes().size(); i++){
-            if(getClientes().get(i).getNome().toLowerCase().contains(pesquisa)){
-                lista.add(getClientes().get(i));
-            }
-        }
-        return lista;
     }
 }
