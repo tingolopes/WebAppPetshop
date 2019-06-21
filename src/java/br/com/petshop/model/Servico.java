@@ -68,6 +68,6 @@ public class Servico implements Serializable{
 
     @Override
     public String toString() {
-        return "Servico{" + "id=" + id + '}';
+        return getDescricao();
     }
 }

@@ -42,6 +42,9 @@
                          rowKey="#{agenda.id}"
                          >
 
+                <p:ajax event="rowSelect" update=":frm:toolbar" />
+                <p:ajax event="rowUnselect" update=":frm:toolbar" />
+
                 <p:column headerText="Data">
                     <h:outputText value="#{agenda.dataagendamento}" />
                 </p:column>
@@ -69,39 +72,46 @@
                       widgetVar="edicaoAgendamentoDialog"
                       resizable="false" modal="true" closeOnEscape="true">
 
-                <p:tabView style="width: 650px">
+                <p:wizard flowListener="#{agendaBean.onFlowProcess}" nextLabel="Serviços" backLabel="Agenda" style="width: 520px">
                     <p:tab title="Agenda">
                         <p:panelGrid columns="2">
+
                             <p:outputLabel value="Data" for="data" />
-                            <p:calendar id="data" value="#{agendaBean.agenda.dataagendamento}"/>
+                            <p:calendar id="data" value="#{agendaBean.agenda.dataagendamento}" />
+
                             <p:outputLabel value="Horário" for="hora"/>
-                            <p:calendar id="hora" pattern="HH:mm" timeOnly="true"/>
+                            <p:calendar id="hora" pattern="HH:mm" timeOnly="true" />
+
                             <p:outputLabel value="Proprietário" for="proprietario"/>
                             <p:selectOneMenu id="proprietario" 
-                                             value="#{agendaBean.proprietarioId}" filter="true" style="width: 160px">
+                                             value="#{agendaBean.clienteId}" filter="true" style="width: 160px" >
                                 <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
                                 <f:selectItems value="#{agendaBean.clientes}"
                                                var="cliente"
                                                itemLabel="#{cliente.nome}"
                                                itemValue="#{cliente.id}"/>
+                                <p:ajax event="itemSelect" update="animalCombo"/>
                             </p:selectOneMenu>
-                            <p:outputLabel value="Animal" for="animal"/>
-                            <p:selectOneMenu id="animal" 
-                                             value="#{agendaBean.animalId}" filter="true" style="width: 160px">
+
+                            <p:outputLabel value="Animal" for="animalCombo"/>
+                            <p:selectOneMenu id="animalCombo" 
+                                             value="#{agendaBean.animalId}" filter="true" style="width: 160px"  >
                                 <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
-                                <f:selectItems value="#{agendaBean.animais}"
+                                <f:selectItems value="#{agendaBean.animaisDoCliente(agendaBean.clienteId)}"
                                                var="animal"
                                                itemLabel="#{animal.nome}"
                                                itemValue="#{animal.id}"/>
                             </p:selectOneMenu>
+
                             <p:outputLabel value="Status" for="status"/>
-                            <p:selectOneRadio id="status">
+                            <p:selectOneRadio id="status" >
                                 <f:selectItem itemLabel="Em espera" itemValue="Em espera"/>
                                 <f:selectItem itemLabel="Finalizado" itemValue="Finalizado"/>
                                 <f:selectItem itemLabel="Cancelado" itemValue="Cancelado"/>
                             </p:selectOneRadio>
+
                             <p:outputLabel value="Forma de Pagamento" for="pagamento"/>
-                            <p:selectOneMenu id="pagamento">
+                            <p:selectOneMenu id="pagamento" >
                                 <f:selectItem itemLabel="Selecione..."/>
                                 <f:selectItems value="#{agendaBean.formaDePagamentos}"
                                                var="pagamento"
@@ -109,23 +119,49 @@
                                                itemValue="#{pagamento}"/>
                             </p:selectOneMenu>
                         </p:panelGrid>
+
                     </p:tab>
                     <p:tab title="Serviços">
-                        <p:dataTable value="#{[0]}">
+
+                        <p:autoComplete id="servico"
+                                        placeholder="Informe o serviço e tecle TAB"
+                                        size="50"
+                                        completeMethod="#{agendaBean.getByServico}"
+                                        var="servico"
+                                        value="#{agendaBean.servicoId}"
+                                        itemLabel="#{servico.descricao}"
+                                        itemValue="#{servico.id}"
+                                        forceSelection="true">
+                        </p:autoComplete>
+
+                        <p:commandButton value="Add" 
+                                         id="add-button"
+                                         action="#{agendaBean.addItemServico}"
+                                         process="agendamento-dialog"
+                                         update="servico-tabela"
+                                         />
+
+                        <p:dataTable value="#{agendaBean.listarItensServico()}" var="servico"  
+                                     id="servico-tabela" widgetVar="edicaoAgendamentoDialog"
+                                     emptyMessage="Nenhum serviço incluido"
+                                     rows="5" paginator="true"
+                                     paginatorPosition="bottom"
+                                     rowKey="#{servico.id}" >
                             <p:column headerText="Serviços">
-                                <p:autoComplete placeholder="Informe o serviço e tecle TAB" 
-                                                size="50"/>
+                                <h:outputText value="#{servico.descricao}" />
                             </p:column>
-                            <p:column headerText="Valor" style="text-align: center; width: 100px">
-                                <h:outputText value="R$ 0,00"/>
+
+                            <p:column headerText="Valor" style="text-align: center;width: 100px">
+                                <h:outputText value="#{servico.valor}" id="valorServico"/>
                             </p:column>
+
                             <p:columnGroup type="footer">
                                 <p:column footerText="Total" style="text-align: right"/>
                                 <p:column footerText="R$ 0,00" style="text-align: center"/>
                             </p:columnGroup>
                         </p:dataTable>
                     </p:tab>
-                </p:tabView>
+                </p:wizard>
             </p:dialog>
 
 

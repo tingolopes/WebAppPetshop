@@ -39,8 +39,8 @@ public class AnimalBean {
     public void salvar() {
         Integer id = this.animal.getId();
         String operacao = "";
-        Raca raca = new DAO<Raca>(Raca.class).porId(this.racaId);
-        Cliente proprietario = new DAO<Cliente>(Cliente.class).porId(this.proprietarioId);
+        Raca raca = new DAO<>(Raca.class).porId(this.racaId);
+        Cliente proprietario = new DAO<>(Cliente.class).porId(this.proprietarioId);
         this.animal.setRaca(raca);
         this.animal.setProprietario(proprietario);
         if (id == null) {
