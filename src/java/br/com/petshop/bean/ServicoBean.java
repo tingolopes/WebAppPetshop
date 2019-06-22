@@ -5,6 +5,8 @@ import br.com.petshop.dao.JPAUtil;
 import br.com.petshop.model.Servico;
 import br.com.petshop.service.FacesMessages;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -60,8 +62,9 @@ public class ServicoBean {
     }
 
     public List<Servico> getServicos() {
-        List<Servico> listaSevicos = SERVICODAO.listaTodos();
-        return listaSevicos;
+        List<Servico> lista = new DAO(Servico.class).listaTodos();
+        Collections.sort(lista, Comparator.comparing(Servico::getDescricao));
+        return lista;
     }
 
     public Servico getServico() {
