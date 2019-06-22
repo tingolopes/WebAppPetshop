@@ -95,14 +95,16 @@
                             <p:calendar id="data" value="#{agendaBean.agenda.dataagendamento}" />
 
                             <p:outputLabel value="Horário" for="hora"/>
-                            <p:calendar id="hora" pattern="HH:mm" timeOnly="true" value="#{agendaBean.agenda.horaAgendamento}"/>
+                            <p:calendar id="hora" pattern="HH:mm" timeOnly="true" 
+                                        value="#{agendaBean.agenda.horaAgendamento}"/>
 
                             <p:outputLabel value="Proprietário" for="proprietario"/>
-                            <p:selectOneMenu id="proprietario"
+                            <p:selectOneMenu id="proprietario" style="width: 158px"
                                              value="#{agendaBean.cliente}"
                                              filter="true"
                                              converter="generic">
-                                <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
+                                <f:selectItem itemLabel="Selecione..." 
+                                              noSelectionOption="true"/>
                                 <f:selectItems value="#{agendaBean.clientes}"
                                                var="cliente"
                                                itemLabel="#{cliente.nome}"
@@ -111,27 +113,33 @@
                             </p:selectOneMenu>
 
                             <p:outputLabel value="Animal" for="animalCombo"/>
-                            <p:selectOneMenu id="animalCombo" 
+                            <p:selectOneMenu id="animalCombo" style="width: 158px"
                                              value="#{agendaBean.agenda.animal}" 
                                              filter="true" 
                                              converter="generic">
-                                <f:selectItem itemLabel="Selecione..." noSelectionOption="true" />
+                                <f:selectItem itemLabel="Selecione..." 
+                                              noSelectionOption="true" />
                                 <f:selectItems value="#{agendaBean.animaisDoCliente(agendaBean.cliente.id)}"
                                                var="animal"
                                                itemLabel="#{animal.nome}"
                                                itemValue="#{animal}" />
                             </p:selectOneMenu>
 
-                            <p:outputLabel value="Status" for="status"/>
-                            <p:selectOneMenu id="status" value="#{agendaBean.agenda.status}">
+                            <p:outputLabel value="Status" 
+                                           for="status"/>
+                            <p:selectOneMenu id="status" style="width: 158px"
+                                             value="#{agendaBean.agenda.status}">
                                 <f:selectItem itemLabel="Em espera" itemValue="Em espera"/>
                                 <f:selectItem itemLabel="Finalizado" itemValue="Finalizado"/>
                                 <f:selectItem itemLabel="Cancelado" itemValue="Cancelado"/>
                             </p:selectOneMenu>
 
-                            <p:outputLabel value="Forma de Pagamento" for="pagamento" />
-                            <p:selectOneMenu id="pagamento" value="#{agendaBean.agenda.formaDePagamento}">
-                                <f:selectItem itemLabel="Selecione..."/>
+                            <p:outputLabel value="Forma de Pagamento" 
+                                           for="pagamento" />
+                            <p:selectOneMenu id="pagamento" style="width: 158px"
+                                             value="#{agendaBean.agenda.formaDePagamento}">
+                                <f:selectItem itemLabel="Selecione..." 
+                                              noSelectionOption="true"/>
                                 <f:selectItems value="#{agendaBean.formaDePagamentos}"
                                                var="pagamento"
                                                itemLabel="#{pagamento.descricao}"
@@ -148,7 +156,8 @@
                                          value="#{agendaBean.servico}" 
                                          filter="true"  
                                          converter="generic">
-                            <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
+                            <f:selectItem itemLabel="Selecione..." 
+                                          noSelectionOption="true"/>
                             <f:selectItems value="#{agendaBean.servicos}"
                                            var="servico"
                                            itemLabel="#{servico.descricao}"
@@ -171,12 +180,12 @@
                             </p:column>
 
                             <p:column headerText="Valor" style="text-align: center;width: 100px">
-                                <h:outputText value="#{servico.valor}" id="valorServico"/>
+                                <h:outputText value="R$ #{servico.valor}" id="valorServico"/>
                             </p:column>
 
                             <p:columnGroup type="footer">
                                 <p:column footerText="Total" style="text-align: right"/>
-                                <p:column footerText="R$ 0,00" style="text-align: center"/>
+                                <p:column footerText="R$ #{agendaBean.somaItensDeServico}" style="text-align: center"/>
                             </p:columnGroup>
                         </p:dataTable>
                         <p:commandButton value="Salvar"

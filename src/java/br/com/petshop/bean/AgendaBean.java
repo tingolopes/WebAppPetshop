@@ -9,6 +9,7 @@ import br.com.petshop.model.ItemServico;
 import br.com.petshop.model.Servico;
 import br.com.petshop.service.FacesMessages;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -101,6 +102,14 @@ public class AgendaBean implements Serializable {
             listaSevicos.add(new DAO<>(Servico.class).porId(i.getServico().getId()));
         }
         return listaSevicos;
+    }
+    
+    public BigDecimal getSomaItensDeServico() {
+        BigDecimal soma = BigDecimal.ZERO;
+        for (ItemServico i : this.agenda.getItensDeServico()) {
+            soma = soma.add(new DAO<>(Servico.class).porId(i.getServico().getId()).getValor());
+        }
+        return soma;
     }
 
     public Agenda getAgenda() {
