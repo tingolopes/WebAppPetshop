@@ -43,7 +43,7 @@
                 </f:facet>
 
             </p:toolbar>
-
+            <br/>
             <p:dataTable value="#{agendaBean.agendas}" var="agenda"  
                          id="agenda-tabela"
                          emptyMessage="Nenhum agendamento localizado"
@@ -56,10 +56,10 @@
                 <p:ajax event="rowSelect" update=":frm:toolbar" />
                 <p:ajax event="rowUnselect" update=":frm:toolbar" />
 
-                <p:column headerText="Data">
+                <p:column headerText="Data" >
                     <h:outputText value="#{agenda.dataagendamento}" />
                 </p:column>
-                <p:column headerText="Hora">
+                <p:column headerText="Hora" >
                     <h:outputText value="#{agenda.horaagendamento}" />
                 </p:column>
                 <p:column headerText="Cliente">
@@ -157,7 +157,7 @@
                                          filter="true"  
                                          converter="generic">
                             <f:selectItem itemLabel="Selecione..." 
-                                          noSelectionOption="true"/>
+                                          noSelectionOption="true" />
                             <f:selectItems value="#{agendaBean.servicos}"
                                            var="servico"
                                            itemLabel="#{servico.descricao}"

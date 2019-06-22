@@ -12,6 +12,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -66,30 +68,23 @@ public class AgendaBean implements Serializable {
         return animaisCliente;
     }
 
-    public List<Servico> getByServico(CharSequence pesquisa) {
-        pesquisa = pesquisa.toString().trim().toLowerCase();
-        List<Servico> lista = new ArrayList<>();
-        for (int i = 0; i < new ServicoBean().getServicos().size(); i++) {
-            if (new ServicoBean().getServicos().get(i).getDescricao().toLowerCase().contains(pesquisa)) {
-                lista.add(new ServicoBean().getServicos().get(i));
-            }
-        }
+    public List<Agenda> getAgendas() {
+        List<Agenda> lista = new DAO<>(Agenda.class).listaTodos();
+        Collections.sort(lista, Comparator.comparing(Agenda::getHoraAgendamento));
+        Collections.sort(lista, Comparator.comparing(Agenda::getDataAgendamento));
         return lista;
     }
 
-    public List<Agenda> getAgendas() {
-        List<Agenda> listaAgendas = new DAO<>(Agenda.class).listaTodos();
-        return listaAgendas;
-    }
-
     public List<Cliente> getClientes() {
-        List<Cliente> listaSevicos = new DAO<>(Cliente.class).listaTodos();
-        return listaSevicos;
+        List<Cliente> lista = new DAO(Cliente.class).listaTodos();
+        Collections.sort(lista, Comparator.comparing(Cliente::getNome));
+        return lista;
     }
 
     public List<Servico> getServicos() {
-        List<Servico> listaSevicos = new DAO<>(Servico.class).listaTodos();
-        return listaSevicos;
+        List<Servico> lista = new DAO<>(Servico.class).listaTodos();
+        Collections.sort(lista, Comparator.comparing(Servico::getDescricao));
+        return lista;
     }
 
     public FormaDePagamento[] getFormaDePagamentos() {
@@ -103,7 +98,7 @@ public class AgendaBean implements Serializable {
         }
         return listaSevicos;
     }
-    
+
     public BigDecimal getSomaItensDeServico() {
         BigDecimal soma = BigDecimal.ZERO;
         for (ItemServico i : this.agenda.getItensDeServico()) {

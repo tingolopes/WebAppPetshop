@@ -55,6 +55,7 @@ public class Animal implements Serializable, EntidadeBase{
         this.sexo = sexo;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }

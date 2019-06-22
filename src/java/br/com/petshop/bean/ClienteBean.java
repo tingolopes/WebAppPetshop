@@ -1,11 +1,14 @@
 package br.com.petshop.bean;
 
 import br.com.petshop.dao.ClienteDAO;
+import br.com.petshop.dao.DAO;
 import br.com.petshop.dao.JPAUtil;
 import br.com.petshop.model.Cliente;
 import br.com.petshop.service.FacesMessages;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -31,7 +34,7 @@ public class ClienteBean implements Serializable {
         Integer id = this.cliente.getId();
         String operacao = "";
 
-        if (id == 0) {
+        if (id == null) {
             clienteDAO.salvar(this.cliente);
             operacao = "salvo";
         } else {
@@ -54,8 +57,9 @@ public class ClienteBean implements Serializable {
     }
 
     public List<Cliente> getClientes() {
-        List<Cliente> listaClientes = clienteDAO.consultarPorNome("");
-        return listaClientes;
+        List<Cliente> lista = new DAO(Cliente.class).listaTodos();
+        Collections.sort(lista, Comparator.comparing(Cliente::getNome));
+        return lista;
     }
 
     public Cliente getCliente() {

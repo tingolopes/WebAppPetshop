@@ -40,14 +40,13 @@
                                      update="cliente-tabela msgs toolbar"
                                      action="#{clienteBean.excluir()}"
                                      disabled="#{clienteBean.clienteSelecionado == null}">
-                        
+
                         <p:confirm icon="ui-icon-alert"
                                    header="Confirmar Exclusão"
                                    message="Tem Certeza que deseja excluir #{clienteBean.clienteSelecionado.nome}"/>
                     </p:commandButton>
                 </f:facet>
             </p:toolbar>
-            <br />
 
             <p:dialog header="Clientes"
                       widgetVar="edicaoClienteDialog"
@@ -115,8 +114,7 @@
                 <p:column headerText="ID" width="30">
                     <h:outputText value="#{cliente.id}" />
                 </p:column>
-                <p:column headerText="Nome" width="250" 
-                          sortBy="#{cliente.nome}">
+                <p:column headerText="Nome" width="250" >
                     <h:outputText value="#{cliente.nome}" />
                 </p:column>
                 <p:column headerText="RG">
@@ -131,9 +129,9 @@
                 <p:column headerText="E-mail">
                     <h:outputText value="#{cliente.email}" />
                 </p:column>
-<!--                <p:column headerText="Endereço">
-                    <h:outputText value="#{cliente.endereco}" />
-                </p:column>-->
+                <!--                <p:column headerText="Endereço">
+                                    <h:outputText value="#{cliente.endereco}" />
+                                </p:column>-->
             </p:dataTable>
         </h:form>
     </ui:define>

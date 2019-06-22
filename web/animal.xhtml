@@ -48,7 +48,7 @@
                     </p:commandButton>
 
                 </f:facet>
-            </p:toolbar>           
+            </p:toolbar>
             <br/>
             <p:dialog header="Animais" 
                       widgetVar="edicaoAnimalDialog"
@@ -130,18 +130,15 @@
                          paginatorPosition="bottom"
                          selection="#{animalBean.animalSelecionado}"
                          selectionMode="single"
-                         rowKey="#{animal.id}"
-                         >
+                         rowKey="#{animal.id}" >
 
                 <p:ajax event="rowSelect" update=":frm:toolbar" />
                 <p:ajax event="rowUnselect" update=":frm:toolbar" />
 
-
-                <p:column headerText="ID" width="30">
+                <p:column headerText="ID" width="30" >
                     <h:outputText value="#{animal.id}" />
                 </p:column>
-                <p:column headerText="Nome" width="230" 
-                          sortBy="#{animal.nome}">
+                <p:column headerText="Nome" width="230">
                     <h:outputText value="#{animal.nome}" />
                 </p:column>
                 <p:column headerText="Proprietário">

@@ -4,8 +4,11 @@ import br.com.petshop.dao.DAO;
 import br.com.petshop.model.Animal;
 import br.com.petshop.model.Cliente;
 import br.com.petshop.model.Raca;
+import br.com.petshop.model.Servico;
 import br.com.petshop.service.FacesMessages;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -65,16 +68,21 @@ public class AnimalBean {
     }
 
     public List<Raca> getRacas() {
-        return new DAO<Raca>(Raca.class).listaTodos();
+        List<Raca> lista = new DAO<>(Raca.class).listaTodos();
+        Collections.sort(lista, Comparator.comparing(Raca::getRaca));
+        return lista;
     }
 
     public List<Cliente> getClientes() {
-        return new DAO(Cliente.class).listaTodos();
+        List<Cliente> lista = new DAO(Cliente.class).listaTodos();
+        Collections.sort(lista, Comparator.comparing(Cliente::getNome));
+        return lista;
     }
 
     public List<Animal> getAnimais() {
-        List<Animal> listaAnimais = ANIMALDAO.listaTodos();
-        return listaAnimais;
+        List<Animal> lista = new DAO(Animal.class).listaTodos();
+        Collections.sort(lista, Comparator.comparing(Animal::getNome));
+        return lista;
     }
 
     public Animal getAnimal() {
