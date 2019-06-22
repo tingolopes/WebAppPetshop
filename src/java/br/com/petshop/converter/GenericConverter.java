@@ -1,4 +1,5 @@
-import br.com.petshop.model.SampleEntity;
+package br.com.petshop.converter;
+
 import java.io.Serializable;
 import java.util.Map;
 
@@ -6,12 +7,11 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-
-
+import br.com.petshop.model.EntidadeBase;
 
 @FacesConverter("generic")
-public class GenericConverter implements Serializable, Converter{
-    
+public class GenericConverter implements Serializable, Converter {
+
     @Override
     public Object getAsObject(FacesContext ctx, UIComponent component, String value) {
         if (value != null) {
@@ -26,7 +26,7 @@ public class GenericConverter implements Serializable, Converter{
         if (value != null
                 && !"".equals(value)) {
 
-            SampleEntity entity = (SampleEntity) value;
+            EntidadeBase entity = (EntidadeBase) value;
 
             // adiciona item como atributo do componente
             this.addAttribute(component, entity);
@@ -40,7 +40,7 @@ public class GenericConverter implements Serializable, Converter{
         return (String) value;
     }
 
-    protected void addAttribute(UIComponent component, SampleEntity o) {
+    protected void addAttribute(UIComponent component, EntidadeBase o) {
         String key = o.getId().toString(); // codigo da empresa como chave neste caso
         this.getAttributesFrom(component).put(key, o);
     }

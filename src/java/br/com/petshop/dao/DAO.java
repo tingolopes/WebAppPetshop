@@ -2,55 +2,41 @@ package br.com.petshop.dao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
+import br.com.petshop.model.EntidadeBase;
 
-public class DAO<T> {
-
-    //private JPAUtil factory = new JPAUtil();  
-//    private EntityManagerFactory emf
-//            = Persistence.createEntityManagerFactory("frameworks");
+public class DAO<T extends EntidadeBase> {
 
     private final Class<T> classe;
 
     public DAO(Class<T> classe) {
         this.classe = classe;
     }
-    
-    public void salvar(T t){
+
+    public void saveOrUpdate(T t) {
         EntityManager em = new JPAUtil().getEntityManager();
-        em.getTransaction().begin();
-        em.persist(t);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            if (t.getId() == null) {
+                em.persist(t);
+            } else {
+                em.merge(t);
+            }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+        }
         em.close();
     }
-    
-    public T salvarComRetorno(T t){
+
+    public void excluir(T t) {
         EntityManager em = new JPAUtil().getEntityManager();
-        em.getTransaction().begin();
-        T instancia = em.merge(t);
-        em.getTransaction().commit();
-        em.close();
-        return instancia;
-    }
-    
-    public void alterar(T t){
-        EntityManager em = new JPAUtil().getEntityManager();
-        em.getTransaction().begin();
-        em.merge(t);
-        em.getTransaction().commit();
-        em.close();
-    }
-    
-    public void excluir(T t){
-     EntityManager em = new JPAUtil().getEntityManager();
         em.getTransaction().begin();
         em.remove(em.merge(t));
         em.getTransaction().commit();
-        em.close();   
+        em.close();
     }
-    
+
     public List<T> listaTodos() {
         //EntityManager em = factory.getEntityManager();
         EntityManager em = new JPAUtil().getEntityManager();

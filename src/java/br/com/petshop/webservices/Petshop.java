@@ -149,7 +149,7 @@ public class Petshop {
     public String inserirCliente(String content) {
         Gson g = new Gson();
         Cliente c = (Cliente) g.fromJson(content, Cliente.class);
-        new DAO<>(Cliente.class).salvar(c);
+        new DAO<>(Cliente.class).saveOrUpdate(c);
         return "Registro salvo com sucesso!";
     }
 
@@ -160,7 +160,7 @@ public class Petshop {
         Gson g = new Gson();
         Animal a = (Animal) g.fromJson(content, Animal.class);
         a.setId(null);
-        new DAO<>(Animal.class).salvar(a);
+        new DAO<>(Animal.class).saveOrUpdate(a);
         return "Registro salvo com sucesso!";
     }
 
@@ -170,7 +170,7 @@ public class Petshop {
     public String inserirRaca(String content) {
         Gson g = new Gson();
         Raca r = (Raca) g.fromJson(content, Raca.class);
-        new DAO<>(Raca.class).salvar(r);
+        new DAO<>(Raca.class).saveOrUpdate(r);
         return "Registro salvo com sucesso!";
     }
 
@@ -185,7 +185,7 @@ public class Petshop {
     public void alterarCliente(String content) {
         Gson g = new Gson();
         Cliente c = (Cliente) g.fromJson(content, Cliente.class);
-        new DAO<>(Cliente.class).alterar(c);
+        new DAO<>(Cliente.class).saveOrUpdate(c);
     }
 
     @PUT
@@ -194,7 +194,7 @@ public class Petshop {
     public void alterarAnimal(String content) {
         Gson g = new Gson();
         Animal a = (Animal) g.fromJson(content, Animal.class);
-        new DAO<>(Animal.class).alterar(a);
+        new DAO<>(Animal.class).saveOrUpdate(a);
     }
 
     @PUT
@@ -203,7 +203,7 @@ public class Petshop {
     public void alterarRaca(String content) {
         Gson g = new Gson();
         Raca r = (Raca) g.fromJson(content, Raca.class);
-        new DAO<>(Raca.class).alterar(r);
+        new DAO<>(Raca.class).saveOrUpdate(r);
     }
 
     @PUT

@@ -44,10 +44,10 @@ public class AnimalBean {
         this.animal.setRaca(raca);
         this.animal.setProprietario(proprietario);
         if (id == null) {
-            ANIMALDAO.salvar(this.animal);
+            ANIMALDAO.saveOrUpdate(this.animal);
             operacao = "salvo";
         } else {
-            ANIMALDAO.alterar(this.animal);
+            ANIMALDAO.saveOrUpdate(this.animal);
             operacao = "alterado";
         }
         messages.info("Animal " + operacao + " com sucesso");

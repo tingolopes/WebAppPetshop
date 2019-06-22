@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Raca implements Serializable, SampleEntity{
+public class Raca implements Serializable, EntidadeBase{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

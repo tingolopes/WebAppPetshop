@@ -39,10 +39,10 @@ public class ServicoBean {
         Integer id = this.servico.getId();
         String operacao = "";
         if (id == null) {
-            SERVICODAO.salvar(this.servico);
+            SERVICODAO.saveOrUpdate(this.servico);
             operacao = "salvo";
         } else {
-            SERVICODAO.alterar(this.servico);
+            SERVICODAO.saveOrUpdate(this.servico);
             operacao = "alterado";
         }
         messages.info("Serviço " + operacao + " com sucesso");

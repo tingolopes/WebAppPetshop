@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,7 +21,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Agenda implements Serializable, SampleEntity {
+public class Agenda implements Serializable, EntidadeBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +38,7 @@ public class Agenda implements Serializable, SampleEntity {
     @JoinColumn(name = "animal_id")
     private Animal animal;
 
-    @OneToMany(mappedBy = "agenda", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "agenda", cascade = CascadeType.ALL)
     private List<ItemServico> itensDeServico;
 
     private String status;

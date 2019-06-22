@@ -7,36 +7,52 @@ import br.com.petshop.model.Cliente;
 import br.com.petshop.model.FormaDePagamento;
 import br.com.petshop.model.ItemServico;
 import br.com.petshop.model.Servico;
+import br.com.petshop.service.FacesMessages;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import org.primefaces.PrimeFaces;
 
 @ManagedBean
 @ViewScoped //vive enquanto estiver acessando essa tela. Se trocar de tela, a informação some
 public class AgendaBean implements Serializable {
 
     private Agenda agenda = new Agenda();
-    private Agenda agendaSelecionada = new Agenda();
+    private Agenda agendaSelecionada;
     private ItemServico itemServico = new ItemServico();
     private Cliente cliente = new Cliente();
     private Animal animal = new Animal();
     private Servico servico = new Servico();
-    
-    public void adicionar(){
-        new DAO<>(Agenda.class).salvar(agenda);
+    private FacesMessages messages = new FacesMessages();
+
+    public void salvar() {
+        String operacao = "";
+        if (agenda.getId() == null) {
+            new DAO<>(Agenda.class).saveOrUpdate(agenda);
+            operacao = "salva";
+        } else {
+            new DAO<>(Agenda.class).saveOrUpdate(agenda);
+            operacao = "alterada";
+        }
+        messages.info("Agenda " + operacao + " com sucesso");
+        PrimeFaces.current().ajax().update(
+                Arrays.asList("frm:msgs", "frm:agenda-tabela")
+        );
         agenda = new Agenda();
     }
-    
-    public void adicionarServico(){
+
+    public void adicionarServico() {
         itemServico.setServico(servico);
         itemServico.setAgenda(agenda);
+        itemServico.setValor(servico.getValor());
         agenda.getItensDeServico().add(itemServico);
         itemServico = new ItemServico();
         servico = new Servico();
     }
-    
+
     public List<Animal> animaisDoCliente(Integer id) {
         List<Animal> animaisCliente = new ArrayList<>();
         for (Animal a : new AnimalBean().getAnimais()) {
@@ -48,7 +64,7 @@ public class AgendaBean implements Serializable {
         }
         return animaisCliente;
     }
-    
+
     public List<Servico> getByServico(CharSequence pesquisa) {
         pesquisa = pesquisa.toString().trim().toLowerCase();
         List<Servico> lista = new ArrayList<>();
@@ -59,29 +75,29 @@ public class AgendaBean implements Serializable {
         }
         return lista;
     }
-    
+
     public List<Agenda> getAgendas() {
-        List<Agenda> listaSevicos = new DAO<>(Agenda.class).listaTodos();
-        return listaSevicos;
+        List<Agenda> listaAgendas = new DAO<>(Agenda.class).listaTodos();
+        return listaAgendas;
     }
-    
+
     public List<Cliente> getClientes() {
         List<Cliente> listaSevicos = new DAO<>(Cliente.class).listaTodos();
         return listaSevicos;
     }
-    
+
     public List<Servico> getServicos() {
         List<Servico> listaSevicos = new DAO<>(Servico.class).listaTodos();
         return listaSevicos;
     }
-    
+
     public FormaDePagamento[] getFormaDePagamentos() {
         return FormaDePagamento.values();
     }
-    
+
     public List<Servico> getItensDeServico() {
         List<Servico> listaSevicos = new ArrayList<>();
-        for(ItemServico i : this.agenda.getItensDeServico()){
+        for (ItemServico i : this.agenda.getItensDeServico()) {
             listaSevicos.add(new DAO<>(Servico.class).porId(i.getServico().getId()));
         }
         return listaSevicos;
@@ -102,8 +118,6 @@ public class AgendaBean implements Serializable {
     public void setAgendaSelecionada(Agenda agendaSelecionada) {
         this.agendaSelecionada = agendaSelecionada;
     }
-    
-    
 
     public ItemServico getItemServico() {
         return itemServico;
@@ -136,6 +150,5 @@ public class AgendaBean implements Serializable {
     public void setServico(Servico servico) {
         this.servico = servico;
     }
-    
-    
+
 }

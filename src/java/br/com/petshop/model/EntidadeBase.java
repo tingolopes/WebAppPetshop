@@ -9,6 +9,6 @@ package br.com.petshop.model;
  *
  * @author tingo
  */
-public interface SampleEntity {
+public interface EntidadeBase {
     Integer getId();
 }

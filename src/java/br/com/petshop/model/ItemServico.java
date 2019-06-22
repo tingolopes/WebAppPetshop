@@ -13,7 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class ItemServico implements Serializable, SampleEntity {
+public class ItemServico implements Serializable, EntidadeBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
