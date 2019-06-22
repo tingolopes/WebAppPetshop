@@ -1,8 +1,11 @@
 package br.com.petshop.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,11 +15,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Agenda implements Serializable {
+public class Agenda implements Serializable, SampleEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +37,14 @@ public class Agenda implements Serializable {
     @JoinColumn(name = "animal_id")
     private Animal animal;
 
+    @OneToMany(mappedBy = "agenda", cascade = CascadeType.ALL)
+    private List<ItemServico> itensDeServico;
+
     private String status;
+
+    public Agenda() {
+        this.itensDeServico = new ArrayList<>(); 
+    }
 
     @Enumerated(EnumType.STRING)
     @Column(name = "forma_de_pagamento")
@@ -47,6 +58,7 @@ public class Agenda implements Serializable {
         this.formaDePagamento = formaDePagamento;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
@@ -77,6 +89,30 @@ public class Agenda implements Serializable {
 
     public void setAnimal(Animal animal) {
         this.animal = animal;
+    }
+
+    public Date getDataAgendamento() {
+        return dataAgendamento;
+    }
+
+    public void setDataAgendamento(Date dataAgendamento) {
+        this.dataAgendamento = dataAgendamento;
+    }
+
+    public Date getHoraAgendamento() {
+        return horaAgendamento;
+    }
+
+    public void setHoraAgendamento(Date horaAgendamento) {
+        this.horaAgendamento = horaAgendamento;
+    }
+
+    public List<ItemServico> getItensDeServico() {
+        return itensDeServico;
+    }
+
+    public void setItensDeServico(List<ItemServico> itensDeServico) {
+        this.itensDeServico = itensDeServico;
     }
 
     public String getStatus() {

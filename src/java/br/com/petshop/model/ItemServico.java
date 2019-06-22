@@ -3,6 +3,7 @@ package br.com.petshop.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,12 +13,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class ItemServico implements Serializable {
+public class ItemServico implements Serializable, SampleEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
+   
     @ManyToOne
     @JoinColumn(name = "agenda_id")
     private Agenda agenda;
@@ -29,6 +30,7 @@ public class ItemServico implements Serializable {
     @Column(precision = 10, scale = 2)
     private BigDecimal valor = BigDecimal.ZERO;
 
+    @Override
     public Integer getId() {
         return id;
     }

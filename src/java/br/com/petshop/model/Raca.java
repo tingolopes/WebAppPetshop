@@ -8,12 +8,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Raca implements Serializable{
+public class Raca implements Serializable, SampleEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String raca;
 
+    @Override
     public Integer getId() {
         return id;
     }

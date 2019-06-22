@@ -1,142 +1,89 @@
 package br.com.petshop.bean;
 
 import br.com.petshop.dao.DAO;
-import br.com.petshop.dao.JPAUtil;
 import br.com.petshop.model.Agenda;
 import br.com.petshop.model.Animal;
 import br.com.petshop.model.Cliente;
 import br.com.petshop.model.FormaDePagamento;
 import br.com.petshop.model.ItemServico;
 import br.com.petshop.model.Servico;
-import br.com.petshop.service.FacesMessages;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.persistence.EntityManager;
-import org.primefaces.PrimeFaces;
-import org.primefaces.event.FlowEvent;
-import org.primefaces.event.SelectEvent;
+import javax.faces.bean.ViewScoped;
 
 @ManagedBean
-@RequestScoped
+@ViewScoped //vive enquanto estiver acessando essa tela. Se trocar de tela, a informação some
 public class AgendaBean implements Serializable {
 
-    private EntityManager em = new JPAUtil().getEntityManager();
-    private FacesMessages messages = new FacesMessages();
-    private DAO<Agenda> agendaDao = new DAO<>(Agenda.class);
     private Agenda agenda = new Agenda();
+    private Agenda agendaSelecionada = new Agenda();
+    private ItemServico itemServico = new ItemServico();
+    private Cliente cliente = new Cliente();
+    private Animal animal = new Animal();
     private Servico servico = new Servico();
-    private Integer agendaId;
-    private Integer servicoId;    
-    private Agenda agendaSelecionado;
-    private Integer clienteId;
-    private Integer animalId;
-
-    public Servico getServico() {
-        return servico;
-    }
-
-    public void setServico(Servico servico) {
-        this.servico = servico;
+    
+    public void adicionar(){
+        new DAO<>(Agenda.class).salvar(agenda);
+        agenda = new Agenda();
     }
     
-    public Integer getAgendaId() {
-        return agendaId;
+    public void adicionarServico(){
+        itemServico.setServico(servico);
+        itemServico.setAgenda(agenda);
+        agenda.getItensDeServico().add(itemServico);
+        itemServico = new ItemServico();
+        servico = new Servico();
     }
-
-    public void setAgendaId(Integer agendaId) {
-        this.agendaId = agendaId;
-    }
-
-    public Integer getServicoId() {
-        return servicoId;
-    }
-
-    public void setServicoId(Integer servicoId) {
-        this.servicoId = servicoId;
-    }
-
-    public Integer getClienteId() {
-        return clienteId;
-    }
-
-    public void setClienteId(Integer clienteId) {
-        this.clienteId = clienteId;
-    }
-
-    public void salvar() {
-        this.agenda = agendaDao.salvarComRetorno(this.agenda);
-    }
-
-    public FormaDePagamento[] getFormaDePagamentos() {
-        return FormaDePagamento.values();
-    }
-
-    public List<Servico> getServicos() {
-        return new DAO(Servico.class).listaTodos();
-    }
-
-    public List<Animal> getAnimais() {
-        return new DAO(Animal.class).listaTodos();
-    }
-
-    public List<Cliente> getClientes() {
-        return new DAO(Cliente.class).listaTodos();
-    }
-
+    
     public List<Animal> animaisDoCliente(Integer id) {
         List<Animal> animaisCliente = new ArrayList<>();
-        for (Animal a : getAnimais()) {
+        for (Animal a : new AnimalBean().getAnimais()) {
             if (id == null) {
-                return getAnimais();
+                return new AnimalBean().getAnimais();
             } else if (a.getProprietario().getId() == id) {
                 animaisCliente.add(a);
             }
         }
         return animaisCliente;
     }
-
-    public Integer getAnimalId() {
-        return animalId;
+    
+    public List<Servico> getByServico(CharSequence pesquisa) {
+        pesquisa = pesquisa.toString().trim().toLowerCase();
+        List<Servico> lista = new ArrayList<>();
+        for (int i = 0; i < new ServicoBean().getServicos().size(); i++) {
+            if (new ServicoBean().getServicos().get(i).getDescricao().toLowerCase().contains(pesquisa)) {
+                lista.add(new ServicoBean().getServicos().get(i));
+            }
+        }
+        return lista;
     }
-
-    public void setAnimalId(Integer animalId) {
-        this.animalId = animalId;
-    }
-
-    public Agenda getAgendaSelecionado() {
-        return agendaSelecionado;
-    }
-
-    public void setAgendaSelecionado(Agenda agendaSelecionado) {
-        this.agendaSelecionado = agendaSelecionado;
-    }
-
-    public void prepararSalvar() {
-        agenda = new Agenda();
-    }
-
-//    public void salvar() {
-//        Integer id = this.agenda.getId();
-//        String operacao = "";
-//        if (id == 0) {
-//            agendaDao.salvar(this.agenda);
-//            operacao = "salvo";
-//        } else {
-//            agendaDao.alterar(this.agenda);
-//            operacao = "alterado";
-//        }
-//        messages.info("Serviço " + operacao + " com sucesso");
-//        PrimeFaces.current().ajax().update(
-//                Arrays.asList("frm:msgs", "frm:agenda-tabela")
-//        );
-//    }
     
     public List<Agenda> getAgendas() {
-        List<Agenda> listaSevicos = agendaDao.listaTodos();
+        List<Agenda> listaSevicos = new DAO<>(Agenda.class).listaTodos();
+        return listaSevicos;
+    }
+    
+    public List<Cliente> getClientes() {
+        List<Cliente> listaSevicos = new DAO<>(Cliente.class).listaTodos();
+        return listaSevicos;
+    }
+    
+    public List<Servico> getServicos() {
+        List<Servico> listaSevicos = new DAO<>(Servico.class).listaTodos();
+        return listaSevicos;
+    }
+    
+    public FormaDePagamento[] getFormaDePagamentos() {
+        return FormaDePagamento.values();
+    }
+    
+    public List<Servico> getItensDeServico() {
+        List<Servico> listaSevicos = new ArrayList<>();
+        for(ItemServico i : this.agenda.getItensDeServico()){
+            listaSevicos.add(new DAO<>(Servico.class).porId(i.getServico().getId()));
+        }
         return listaSevicos;
     }
 
@@ -147,66 +94,48 @@ public class AgendaBean implements Serializable {
     public void setAgenda(Agenda agenda) {
         this.agenda = agenda;
     }
-    
-    public List getByServico(CharSequence pesquisa) {
-        pesquisa = pesquisa.toString().trim().toLowerCase();
-        List<Servico> lista = new ArrayList<>();
-        for (int i = 0; i < getServicos().size(); i++) {
-            if (getServicos().get(i).getDescricao().toLowerCase().contains(pesquisa)) {
-                lista.add(getServicos().get(i));
-            }
-        }
-        return lista;
+
+    public Agenda getAgendaSelecionada() {
+        return agendaSelecionada;
     }
 
-    public void addItemServico() {
-        Agenda a = getAgenda();
-        if(getAgenda().getId() == null){
-            a = new DAO<>(Agenda.class).salvarComRetorno(agenda);
-        }
-        
-        ItemServico itemServico = new ItemServico();
-        Servico s = new DAO<>(Servico.class).porId(this.servicoId);
-        itemServico.setAgenda(a);
-        itemServico.setServico(s);
-        itemServico.setValor(s.getValor());
-        new DAO<>(ItemServico.class).salvar(itemServico);
-        PrimeFaces.current().ajax().update(Arrays.asList("frm:servico-tabela"));
+    public void setAgendaSelecionada(Agenda agendaSelecionada) {
+        this.agendaSelecionada = agendaSelecionada;
     }
     
-    public List listarItensServico(){
-        List<ItemServico> lista = new ArrayList<>();
-        for(ItemServico i : new DAO<>(ItemServico.class).listaTodos()){
-            if(i.getAgenda().getId() == agenda.getId()){
-                lista.add(i);
-            }
-        }
-        return lista;
+    
+
+    public ItemServico getItemServico() {
+        return itemServico;
+    }
+
+    public void setItemServico(ItemServico itemServico) {
+        this.itemServico = itemServico;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Animal getAnimal() {
+        return animal;
+    }
+
+    public void setAnimal(Animal animal) {
+        this.animal = animal;
+    }
+
+    public Servico getServico() {
+        return servico;
+    }
+
+    public void setServico(Servico servico) {
+        this.servico = servico;
     }
     
-    public void selectServico(Integer id){
-        servico = new DAO<>(Servico.class).porId(id);
-    }
-
-//    WIZARD A PARTIR DAQUI
-    private boolean skip;
-
-    public boolean isSkip() {
-        return skip;
-    }
-
-    public void setSkip(boolean skip) {
-        this.skip = skip;
-    }
-
-    public String onFlowProcess(FlowEvent event) {
-        if (skip) {
-            skip = false;   //reset in case user goes back
-            return "confirm";
-        } else {
-            return event.getNewStep();
-        }
-    }
-//WIZARD TERMINA AQUI    
-
+    
 }

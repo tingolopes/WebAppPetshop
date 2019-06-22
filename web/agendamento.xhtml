@@ -37,10 +37,9 @@
                          emptyMessage="Nenhum agendamento localizado"
                          rows="10" paginator="true"
                          paginatorPosition="bottom"
-                         selection="#{agendaBean.agendaSelecionado}"
+                         selection="#{agendaBean.agendaSelecionada}"
                          selectionMode="single"
-                         rowKey="#{agenda.id}"
-                         >
+                         rowKey="#{agenda.id}" >
 
                 <p:ajax event="rowSelect" update=":frm:toolbar" />
                 <p:ajax event="rowUnselect" update=":frm:toolbar" />
@@ -72,46 +71,50 @@
                       widgetVar="edicaoAgendamentoDialog"
                       resizable="false" modal="true" closeOnEscape="true">
 
-                <p:wizard flowListener="#{agendaBean.onFlowProcess}" nextLabel="Serviços" backLabel="Agenda" style="width: 520px">
-                    <p:tab title="Agenda">
-                        <p:panelGrid columns="2">
+                <p:tabView style="width: 640px">
+                    <p:tab title="Agendamento">
+                        <p:panelGrid columns="4">
 
                             <p:outputLabel value="Data" for="data" />
                             <p:calendar id="data" value="#{agendaBean.agenda.dataagendamento}" />
 
                             <p:outputLabel value="Horário" for="hora"/>
-                            <p:calendar id="hora" pattern="HH:mm" timeOnly="true" />
+                            <p:calendar id="hora" pattern="HH:mm" timeOnly="true" value="#{agendaBean.agenda.horaAgendamento}"/>
 
                             <p:outputLabel value="Proprietário" for="proprietario"/>
                             <p:selectOneMenu id="proprietario" 
-                                             value="#{agendaBean.clienteId}" filter="true" style="width: 160px" >
+                                             value="#{agendaBean.cliente}" 
+                                             filter="true"  
+                                             converter="generic">
                                 <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
                                 <f:selectItems value="#{agendaBean.clientes}"
                                                var="cliente"
                                                itemLabel="#{cliente.nome}"
-                                               itemValue="#{cliente.id}"/>
+                                               itemValue="#{cliente}"/>
                                 <p:ajax event="itemSelect" update="animalCombo"/>
                             </p:selectOneMenu>
 
                             <p:outputLabel value="Animal" for="animalCombo"/>
                             <p:selectOneMenu id="animalCombo" 
-                                             value="#{agendaBean.animalId}" filter="true" style="width: 160px"  >
-                                <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
-                                <f:selectItems value="#{agendaBean.animaisDoCliente(agendaBean.clienteId)}"
+                                             value="#{agendaBean.agenda.animal}" 
+                                             filter="true" 
+                                             converter="generic">
+                                <f:selectItem itemLabel="Selecione..." noSelectionOption="true" />
+                                <f:selectItems value="#{agendaBean.animaisDoCliente(agendaBean.cliente.id)}"
                                                var="animal"
                                                itemLabel="#{animal.nome}"
-                                               itemValue="#{animal.id}"/>
+                                               itemValue="#{animal}" />
                             </p:selectOneMenu>
 
                             <p:outputLabel value="Status" for="status"/>
-                            <p:selectOneRadio id="status" >
+                            <p:selectOneMenu id="status" value="#{agendaBean.agenda.status}">
                                 <f:selectItem itemLabel="Em espera" itemValue="Em espera"/>
                                 <f:selectItem itemLabel="Finalizado" itemValue="Finalizado"/>
                                 <f:selectItem itemLabel="Cancelado" itemValue="Cancelado"/>
-                            </p:selectOneRadio>
+                            </p:selectOneMenu>
 
-                            <p:outputLabel value="Forma de Pagamento" for="pagamento"/>
-                            <p:selectOneMenu id="pagamento" >
+                            <p:outputLabel value="Forma de Pagamento" for="pagamento" />
+                            <p:selectOneMenu id="pagamento" value="#{agendaBean.agenda.formaDePagamento}">
                                 <f:selectItem itemLabel="Selecione..."/>
                                 <f:selectItems value="#{agendaBean.formaDePagamentos}"
                                                var="pagamento"
@@ -120,28 +123,24 @@
                             </p:selectOneMenu>
                         </p:panelGrid>
 
-                    </p:tab>
-                    <p:tab title="Serviços">
+                        <p:outputLabel value="Serviço" for="servico"/>
+                        <p:selectOneMenu id="servico" 
+                                         value="#{agendaBean.servico}" 
+                                         filter="true"  
+                                         converter="generic">
+                            <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
+                            <f:selectItems value="#{agendaBean.servicos}"
+                                           var="servico"
+                                           itemLabel="#{servico.descricao}"
+                                           itemValue="#{servico}"/>
+                        </p:selectOneMenu>                        
 
-                        <p:autoComplete id="servico"
-                                        placeholder="Informe o serviço e tecle TAB"
-                                        size="50"
-                                        completeMethod="#{agendaBean.getByServico}"
-                                        var="servico"
-                                        value="#{agendaBean.servicoId}"
-                                        itemLabel="#{servico.descricao}"
-                                        itemValue="#{servico.id}"
-                                        forceSelection="true">
-                        </p:autoComplete>
-
-                        <p:commandButton value="Add" 
+                        <p:commandButton value="+" 
                                          id="add-button"
-                                         action="#{agendaBean.addItemServico}"
-                                         process="agendamento-dialog"
-                                         update="servico-tabela"
-                                         />
+                                         action="#{agendaBean.adicionarServico}" 
+                                         update="servico-tabela" />
 
-                        <p:dataTable value="#{agendaBean.listarItensServico()}" var="servico"  
+                        <p:dataTable value="#{agendaBean.itensDeServico}" var="servico"  
                                      id="servico-tabela" widgetVar="edicaoAgendamentoDialog"
                                      emptyMessage="Nenhum serviço incluido"
                                      rows="5" paginator="true"
@@ -160,8 +159,17 @@
                                 <p:column footerText="R$ 0,00" style="text-align: center"/>
                             </p:columnGroup>
                         </p:dataTable>
+                        <p:commandButton 
+                            action="#{agendaBean.adicionar()}" 
+                            id="iconOnly" 
+                            update="" 
+                            style="margin-right:20px;" 
+                            icon="fa fa-save" 
+                            title="Icon Only" />
                     </p:tab>
-                </p:wizard>
+
+                </p:tabView>
+
             </p:dialog>
 
 
