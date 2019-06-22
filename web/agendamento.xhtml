@@ -24,7 +24,9 @@
                 <f:facet name="right">
                     <p:commandButton value="Novo" icon="fa fa fa-plus"
                                      process="@this" update="agendamento-dialog"
-                                     oncomplete="PF('edicaoAgendamentoDialog').show()"/>
+                                     oncomplete="PF('edicaoAgendamentoDialog').show()">
+                        <p:resetInput target="agendamento-dialog" />
+                    </p:commandButton>
 
 
                     <p:commandButton value="Editar"
@@ -77,13 +79,15 @@
             <!-- DIALOG -->
 
             <p:dialog header="Novo Agendamento"
-                      id="agendamento-dialog"
                       widgetVar="edicaoAgendamentoDialog"
-                      resizable="false" modal="true" closeOnEscape="true">
+                      id="agendamento-dialog"
+                      resizable="false" 
+                      modal="true" 
+                      closeOnEscape="true">
 
                 <p:messages id="msgs-dialog" />
 
-                <p:tabView style="width: 640px">
+                <p:tabView style="width: 640px" id="tab-dialog">
                     <p:tab title="Agendamento">
                         <p:panelGrid columns="4">
 
@@ -157,7 +161,7 @@
                                          update="servico-tabela" />
 
                         <p:dataTable value="#{agendaBean.itensDeServico}" var="servico"  
-                                     id="servico-tabela" widgetVar="edicaoAgendamentoDialog"
+                                     id="servico-tabela"
                                      emptyMessage="Nenhum serviço incluido"
                                      rows="5" paginator="true"
                                      paginatorPosition="bottom"
@@ -175,13 +179,13 @@
                                 <p:column footerText="R$ 0,00" style="text-align: center"/>
                             </p:columnGroup>
                         </p:dataTable>
-                        <p:commandButton 
-                            action="#{agendaBean.salvar}" 
-                            id="iconOnly"
-                            oncomplete="if(!args.validationFailed) PF('edicaoAgendamentoDialog').hide()"
-                            style="margin-right:20px;" 
-                            icon="fa fa-save" 
-                            title="Icon Only" />
+                        <p:commandButton value="Salvar"
+                                         icon="fa fa-save"
+                                         id="salvar-button"
+                                         action="#{agendaBean.salvar}" 
+                                         process="frm:agendamento-dialog"
+                                         update="frm:msgs-dialog frm:tab-dialog"
+                                         oncomplete="if(!args.validationFailed) PF('edicaoAgendamentoDialog').hide()"/>
                     </p:tab>
 
                 </p:tabView>

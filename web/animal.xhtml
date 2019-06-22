@@ -15,7 +15,6 @@
             <p:toolbar id="toolbar">
                 <f:facet name="left">
 
-                    <!--<p:commandButton value="Novo" icon="ui-icon-document" onclick="PF('edicaoClienteDialog').show;"/>-->
                     <p:commandButton value="Novo"                                       
                                      icon="ui-icon-document" 
                                      action="#{animalBean.prepararSalvar()}"
@@ -52,7 +51,7 @@
             </p:toolbar>           
             <br/>
             <p:dialog header="Animais" 
-                      widgetVar="edicaoAnimalDialog" 
+                      widgetVar="edicaoAnimalDialog"
                       id="animal-dialog" 
                       resizable="false"
                       modal="true" 
@@ -112,6 +111,7 @@
 
                     <p:outputLabel/>
                     <p:commandButton value="Salvar"
+                                     icon="fa fa-save"
                                      id="salvar-button"
                                      action="#{animalBean.salvar}"
                                      process="animal-dialog"
