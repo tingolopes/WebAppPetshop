@@ -45,6 +45,8 @@ public class AgendaBean implements Serializable {
                 Arrays.asList("frm:msgs", "frm:agenda-tabela")
         );
         agenda = new Agenda();
+        agendaSelecionada = null;
+        cliente = null;
     }
 
     public void adicionarServico() {

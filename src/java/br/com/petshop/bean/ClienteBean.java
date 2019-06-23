@@ -46,6 +46,7 @@ public class ClienteBean implements Serializable {
         PrimeFaces.current().ajax().update(
                 Arrays.asList("frm:msgs", "frm:cliente-tabela")
         );
+        clienteSelecionado = null;
     }
 
     public void excluir() {

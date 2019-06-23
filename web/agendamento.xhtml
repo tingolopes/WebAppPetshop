@@ -38,13 +38,15 @@
                         <p:resetInput target="agendamento-dialog" />
                         <f:setPropertyActionListener value="#{agendaBean.agendaSelecionada}" 
                                                      target="#{agendaBean.agenda}" />
+                        <f:setPropertyActionListener value="#{agendaBean.agenda.animal.proprietario}" 
+                                                     target="#{agendaBean.cliente}" />
                     </p:commandButton>
                     <p:commandButton value="Cancelar" icon="fa fa fa-pause"/>
                 </f:facet>
 
             </p:toolbar>
             <br/>
-            <p:dataTable value="#{agendaBean.agendas}" var="agenda"  
+            <p:dataTable value="#{agendaBean.agendas}" var="agenda"
                          id="agenda-tabela"
                          emptyMessage="Nenhum agendamento localizado"
                          rows="10" paginator="true"
@@ -72,7 +74,7 @@
                     <h:outputText value="#{agenda.status}" />
                 </p:column>
                 <p:column headerText="Pagamento">
-                    <h:outputText value="#{agenda.formaDePagamento}" />
+                    <h:outputText value="#{agenda.formaDePagamento.descricao}" />
                 </p:column>
             </p:dataTable>
 
@@ -82,27 +84,28 @@
                       widgetVar="edicaoAgendamentoDialog"
                       id="agendamento-dialog"
                       resizable="false" 
-                      modal="true" 
+                      modal="true"
+                      onShow="PF('tabWidgetVar').select(0)"
                       closeOnEscape="true">
 
                 <p:messages id="msgs-dialog" />
 
-                <p:tabView style="width: 640px" id="tab-dialog">
+                <p:tabView style="width: 640px" id="tab-dialog" widgetVar="tabWidgetVar">
                     <p:tab title="Agendamento">
                         <p:panelGrid columns="4">
 
                             <p:outputLabel value="Data" for="data" />
-                            <p:calendar id="data" value="#{agendaBean.agenda.dataagendamento}" />
+                            <p:calendar id="data" value="#{agendaBean.agenda.dataagendamento}" required="true"/>
 
                             <p:outputLabel value="Horário" for="hora"/>
                             <p:calendar id="hora" pattern="HH:mm" timeOnly="true" 
-                                        value="#{agendaBean.agenda.horaAgendamento}"/>
+                                        value="#{agendaBean.agenda.horaAgendamento}" required="true"/>
 
                             <p:outputLabel value="Proprietário" for="proprietario"/>
                             <p:selectOneMenu id="proprietario" style="width: 158px"
                                              value="#{agendaBean.cliente}"
                                              filter="true"
-                                             converter="generic">
+                                             converter="generic" required="true">
                                 <f:selectItem itemLabel="Selecione..." 
                                               noSelectionOption="true"/>
                                 <f:selectItems value="#{agendaBean.clientes}"
@@ -116,7 +119,7 @@
                             <p:selectOneMenu id="animalCombo" style="width: 158px"
                                              value="#{agendaBean.agenda.animal}" 
                                              filter="true" 
-                                             converter="generic">
+                                             converter="generic" required="true">
                                 <f:selectItem itemLabel="Selecione..." 
                                               noSelectionOption="true" />
                                 <f:selectItems value="#{agendaBean.animaisDoCliente(agendaBean.cliente.id)}"
@@ -138,15 +141,14 @@
                                            for="pagamento" />
                             <p:selectOneMenu id="pagamento" style="width: 158px"
                                              value="#{agendaBean.agenda.formaDePagamento}">
-                                <f:selectItem itemLabel="Selecione..." 
-                                              noSelectionOption="true"/>
                                 <f:selectItems value="#{agendaBean.formaDePagamentos}"
                                                var="pagamento"
                                                itemLabel="#{pagamento.descricao}"
                                                itemValue="#{pagamento}"/>
                             </p:selectOneMenu>
                         </p:panelGrid>
-
+                        <br/>
+                        <p:commandButton type="button" onclick="PF('tabWidgetVar').select(1)" value="Avançar" />
                     </p:tab>
 
                     <p:tab title="Serviços">
@@ -172,7 +174,7 @@
                         <p:dataTable value="#{agendaBean.itensDeServico}" var="servico"  
                                      id="servico-tabela"
                                      emptyMessage="Nenhum serviço incluido"
-                                     rows="5" paginator="true"
+                                     rows="5" paginator="false"
                                      paginatorPosition="bottom"
                                      rowKey="#{servico.id}" >
                             <p:column headerText="Serviços">
@@ -188,12 +190,13 @@
                                 <p:column footerText="R$ #{agendaBean.somaItensDeServico}" style="text-align: center"/>
                             </p:columnGroup>
                         </p:dataTable>
+                        <br/>
                         <p:commandButton value="Salvar"
                                          icon="fa fa-save"
                                          id="salvar-button"
-                                         action="#{agendaBean.salvar}" 
+                                         action="#{agendaBean.salvar}"
                                          process="frm:agendamento-dialog"
-                                         update="frm:msgs-dialog frm:tab-dialog"
+                                         update="frm:msgs-dialog frm:tab-dialog frm:toolbar"
                                          oncomplete="if(!args.validationFailed) PF('edicaoAgendamentoDialog').hide()"/>
                     </p:tab>
 

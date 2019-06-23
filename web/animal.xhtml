@@ -86,7 +86,7 @@
 
                     <p:outputLabel value="Raça" for="raca"/>
                     <p:selectOneMenu id="raca" 
-                                     value="#{animalBean.racaId}" filter="true" style="width: 150px">
+                                     value="#{animalBean.racaId}" filter="true" style="width: 150px" required="true">
                         <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
                         <f:selectItems value="#{animalBean.racas}"
                                        var="raca"
@@ -97,7 +97,7 @@
 
                     <p:outputLabel value="Proprietário" for="proprietario"/>
                     <p:selectOneMenu id="proprietario" 
-                                     value="#{animalBean.proprietarioId}" filter="true" style="width: 150px">
+                                     value="#{animalBean.proprietarioId}" filter="true" style="width: 150px" required="true">
                         <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
                         <f:selectItems value="#{animalBean.clientes}"
                                        var="cliente"
@@ -115,7 +115,7 @@
                                      id="salvar-button"
                                      action="#{animalBean.salvar}"
                                      process="animal-dialog"
-                                     update="msgs-dialog painel-dialog"
+                                     update="msgs-dialog painel-dialog frm:toolbar"
                                      oncomplete="if(!args.validationFailed) PF('edicaoAnimalDialog').hide()"/>
 
                 </p:panelGrid>

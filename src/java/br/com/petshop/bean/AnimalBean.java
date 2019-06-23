@@ -4,7 +4,6 @@ import br.com.petshop.dao.DAO;
 import br.com.petshop.model.Animal;
 import br.com.petshop.model.Cliente;
 import br.com.petshop.model.Raca;
-import br.com.petshop.model.Servico;
 import br.com.petshop.service.FacesMessages;
 import java.util.Arrays;
 import java.util.Collections;
@@ -57,6 +56,7 @@ public class AnimalBean {
         PrimeFaces.current().ajax().update(
                 Arrays.asList("frm:msgs", "frm:animal-tabela")
         );
+        animalSelecionado = null;
     }
     
     public void excluir() {
